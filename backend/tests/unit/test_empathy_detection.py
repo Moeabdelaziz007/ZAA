@@ -1,9 +1,4 @@
-import os
-import sys
-
-sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
-
-from zero_system import EmpathySensorSkill
+from sss.zero_system import EmpathySensorSkill
 
 
 def test_empathy_detection():

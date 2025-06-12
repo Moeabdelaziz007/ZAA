@@ -1,8 +1,4 @@
 """Compatibility package exposing core modules under the 'sss' namespace."""
- codex/remove-conflict-markers-and-refactor-tests
-
-
- main
 from importlib import import_module
 
 zero_system = import_module("zero_system")
