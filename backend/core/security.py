@@ -12,9 +12,9 @@ from fastapi.security import OAuth2PasswordBearer
 from pydantic import ValidationError
 
 from core.config import settings
-from models.user import User
+from api.models.user import User
 from schemas.auth import TokenPayload
-from services.user import UserService
+from api.services.user import UserService
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl=f"{settings.API_V1_PREFIX}/auth/login")

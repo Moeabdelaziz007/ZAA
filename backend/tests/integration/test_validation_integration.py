@@ -12,8 +12,8 @@ from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
 from core.database import get_db
-from models.user import User
-from models.item import Item
+from api.models.user import User
+from api.models.item import Item
 from core.security import create_access_token
 from schemas.user import UserCreate, UserUpdate
 from schemas.item import ItemCreate, ItemUpdate

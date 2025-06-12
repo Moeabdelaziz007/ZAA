@@ -6,9 +6,9 @@ This module contains the user preference service class and related functions.
 from typing import Any, List, Optional
 from sqlalchemy.orm import Session
 
-from models.preference import UserPreference
+from ..models.preference import UserPreference
 from schemas.preference import PreferenceCreate, PreferenceUpdate
-from services.base import BaseService
+from .base import BaseService
 
 class PreferenceService(BaseService[UserPreference, PreferenceCreate, PreferenceUpdate]):
     """User preference service class."""

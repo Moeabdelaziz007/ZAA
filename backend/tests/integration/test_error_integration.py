@@ -14,8 +14,8 @@ from sqlalchemy.exc import SQLAlchemyError
 import redis.exceptions
 
 from core.database import get_db
-from models.user import User
-from models.item import Item
+from api.models.user import User
+from api.models.item import Item
 from core.security import create_access_token
 from core.exceptions import (
     DatabaseError,

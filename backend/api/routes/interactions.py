@@ -9,9 +9,9 @@ from sqlalchemy.orm import Session
 
 from core.database import get_db
 from core.security import get_current_active_user
-from models.user import User
+from ..models.user import User
 from schemas.interaction import InteractionCreate, InteractionResponse
-from services.interaction import InteractionService
+from ..services.interaction import InteractionService
 
 router = APIRouter()
 interaction_service = InteractionService()

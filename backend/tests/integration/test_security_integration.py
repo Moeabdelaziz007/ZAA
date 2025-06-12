@@ -14,7 +14,7 @@ import jwt
 from datetime import datetime, timedelta
 
 from core.database import get_db
-from models.user import User
+from api.models.user import User
 from core.security import (
     create_access_token,
     verify_password,

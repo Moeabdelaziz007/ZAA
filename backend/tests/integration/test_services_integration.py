@@ -12,15 +12,15 @@ from sqlalchemy.orm import Session
 from datetime import datetime
 
 from core.database import get_db
-from models.user import User
-from models.item import Item
-from models.interaction import Interaction
-from models.preference import UserPreference
-from services.user import UserService
-from services.item import ItemService
-from services.interaction import InteractionService
-from services.preference import PreferenceService
-from services.recommendation import RecommendationService
+from api.models.user import User
+from api.models.item import Item
+from api.models.interaction import Interaction
+from api.models.preference import UserPreference
+from api.services.user import UserService
+from api.services.item import ItemService
+from api.services.interaction import InteractionService
+from api.services.preference import PreferenceService
+from api.services.recommendation import RecommendationService
 
 @pytest.fixture
 def db_session():

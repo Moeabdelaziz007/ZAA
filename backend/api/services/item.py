@@ -6,9 +6,9 @@ This module contains the item service class and related functions.
 from typing import Any, Dict, Optional, Union
 from sqlalchemy.orm import Session
 
-from models.item import Item
+from ..models.item import Item
 from schemas.item import ItemCreate, ItemUpdate
-from services.base import BaseService
+from .base import BaseService
 
 class ItemService(BaseService[Item, ItemCreate, ItemUpdate]):
     """Item service class."""

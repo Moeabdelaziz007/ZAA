@@ -16,10 +16,10 @@ from core.security import (
     verify_password
 )
 from core.database import get_db
-from models.user import User
+from ..models.user import User
 from schemas.auth import Token, TokenPayload
 from schemas.user import UserCreate, UserResponse
-from services.user import UserService
+from ..services.user import UserService
 
 router = APIRouter()
 user_service = UserService()
