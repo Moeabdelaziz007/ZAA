@@ -20,6 +20,8 @@ interface SidebarItem {
 
 const sidebarItems: SidebarItem[] = [
   { name: 'الرئيسية', href: '/', icon: HomeIcon },
+  { name: 'نظرة عامة', href: '/dashboard/overview', icon: HomeIcon },
+  { name: 'التحليلات', href: '/dashboard/analytics', icon: ChartBarIcon },
   { name: 'التوصيات', href: '/recommendations', icon: ChartBarIcon },
   { name: 'المستخدمين', href: '/users', icon: UserGroupIcon },
   { name: 'الإعدادات', href: '/settings', icon: CogIcon },
