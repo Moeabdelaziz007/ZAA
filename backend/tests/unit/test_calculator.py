@@ -1,9 +1,3 @@
-import os
-import sys
-
-# Ensure the repository root is on the path when tests run
-sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
-
 from plugin_example import CalculatorPlugin
 
 
