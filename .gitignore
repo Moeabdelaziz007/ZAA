@@ -31,22 +31,139 @@ __pycache__/
 *.py[cod]
 *$py.class
 *.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
 *.egg-info/
-.pytest_cache/
-*.pyc
+.installed.cfg
+*.egg
+MANIFEST
 
-# Virtual environments
+# Virtual Environment
 venv/
 env/
 ENV/
-.venv/
+.env
+.venv
+env.bak/
+venv.bak/
 
-# IDEs and editors
-.vscode/
+# IDE
 .idea/
+.vscode/
 *.swp
 *.swo
 *~
+.DS_Store
+.project
+.pydevproject
+.settings/
+
+# Testing
+.coverage
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+htmlcov/
+.tox/
+.nox/
+coverage/
+test-results.xml
+test-results.html
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Database
+*.sqlite3
+*.db
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Frontend
+node_modules/
+/frontend/build
+/frontend/dist
+/frontend/.cache
+/frontend/.parcel-cache
+/frontend/.next
+/frontend/out
+/frontend/.nuxt
+/frontend/.output
+
+# Backend
+/backend/__pycache__/
+/backend/*.pyc
+/backend/*.pyo
+/backend/*.pyd
+/backend/.Python
+/backend/build/
+/backend/develop-eggs/
+/backend/dist/
+/backend/downloads/
+/backend/eggs/
+/backend/.eggs/
+/backend/lib/
+/backend/lib64/
+/backend/parts/
+/backend/sdist/
+/backend/var/
+/backend/wheels/
+/backend/*.egg-info/
+/backend/.installed.cfg
+/backend/*.egg
+
+# Documentation
+docs/_build/
+site/
+
+# Docker
+.docker/
+docker-compose.override.yml
+
+# Kubernetes
+kubeconfig
+*.kubeconfig
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+.terraformrc
+terraform.rc
+
+# Misc
+.DS_Store
+Thumbs.db
+*.bak
+*.swp
+*~
+*.orig
+*.rej
+*.swo
+*.swn
+*.bak
+*.tmp
+*.temp
 
 # OS generated files
 .DS_Store
@@ -130,4 +247,15 @@ temp/
 *.ntvs*
 *.njsproj
 *.sln
-*.sw? 
+*.sw?
+
+# Distribution
+dist/
+build/
+
+# Misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local 

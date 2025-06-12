@@ -12,15 +12,14 @@ export interface User {
   role: string;
 }
 
-export interface LoginResponse {
-  access_token: string;
-  user: User;
-}
-
 export interface ApiResponse<T = any> {
   data?: T;
   error?: string;
-  message?: string;
+}
+
+export interface LoginResponse {
+  access_token: string;
+  user: User;
 }
 
 export interface DashboardStats {
@@ -54,7 +53,7 @@ export interface SkillData {
   description: string;
 }
 
-// Helper Functions
+// Auth Token Management
 const getAuthToken = (): string | null => {
   if (typeof window === 'undefined') return null;
   return localStorage.getItem(TOKEN_KEY);
@@ -70,15 +69,12 @@ const removeAuthToken = (): void => {
   localStorage.removeItem(TOKEN_KEY);
 };
 
-const getAuthHeaders = (): HeadersInit => {
-  const token = getAuthToken();
-  return {
-    'Content-Type': 'application/json',
-    ...(token && { Authorization: `Bearer ${token}` }),
-  };
-};
+const getAuthHeaders = (): HeadersInit => ({
+  'Content-Type': 'application/json',
+  ...(getAuthToken() && { Authorization: `Bearer ${getAuthToken()}` }),
+});
 
-// Generic API call function with error handling
+// Core API Function
 const apiCall = async <T = any>(
   endpoint: string,
   options: RequestInit = {}
@@ -93,24 +89,23 @@ const apiCall = async <T = any>(
     const data = await response.json();
 
     if (!response.ok) {
-      // Handle JWT expiration
       if (response.status === 401) {
         removeAuthToken();
         if (typeof window !== 'undefined') {
           window.location.href = '/auth';
         }
       }
-      return { error: data.error || 'حدث خطأ غير متوقع' };
+      return { error: data.error || 'An unexpected error occurred' };
     }
 
     return { data };
   } catch (error) {
     console.error('API call failed:', error);
-    return { error: 'فشل في الاتصال بالخادم' };
+    return { error: 'Failed to connect to server' };
   }
 };
 
-// Authentication API
+// API Modules
 export const authApi = {
   async login(username: string, password: string): Promise<ApiResponse<LoginResponse>> {
     const response = await apiCall<LoginResponse>('/auth/login', {
@@ -141,32 +136,26 @@ export const authApi = {
   },
 };
 
-// Dashboard API
 export const dashboardApi = {
-  async getStats(): Promise<ApiResponse<DashboardStats>> {
-    return apiCall<DashboardStats>('/dashboard/stats');
+  async getStats(): Promise<ApiResponse<any>> {
+    return apiCall('/dashboard/stats');
   },
 
-  async getInteractions(): Promise<ApiResponse<{ data: any[] }>> {
-    return apiCall<{ data: any[] }>('/dashboard/interactions');
+  async getInteractions(): Promise<ApiResponse<any>> {
+    return apiCall('/dashboard/interactions');
   },
 
-  async getActivities(): Promise<ApiResponse<{ activities: any[] }>> {
-    return apiCall<{ activities: any[] }>('/dashboard/activities');
+  async getActivities(): Promise<ApiResponse<any>> {
+    return apiCall('/dashboard/activities');
   },
 };
 
-// Emotions API
 export const emotionsApi = {
-  async getWeeklyData(): Promise<ApiResponse<{ data: EmotionData[] }>> {
-    return apiCall<{ data: EmotionData[] }>('/emotions/weekly');
+  async getWeeklyAnalysis(): Promise<ApiResponse<any>> {
+    return apiCall('/emotions/weekly');
   },
 
-  async analyzeText(text: string): Promise<ApiResponse<{
-    emotion: string;
-    confidence: number;
-    analysis: any;
-  }>> {
+  async analyzeText(text: string): Promise<ApiResponse<any>> {
     return apiCall('/emotions/analyze', {
       method: 'POST',
       body: JSON.stringify({ text }),
@@ -174,47 +163,34 @@ export const emotionsApi = {
   },
 };
 
-// Chat API
 export const chatApi = {
-  async sendMessage(message: string): Promise<ApiResponse<ChatMessage>> {
-    return apiCall<ChatMessage>('/chat/message', {
+  async sendMessage(message: string): Promise<ApiResponse<any>> {
+    return apiCall('/chat/message', {
       method: 'POST',
       body: JSON.stringify({ message }),
     });
   },
 };
 
-// Skills API
 export const skillsApi = {
-  async getSkills(): Promise<ApiResponse<{
-    skills: SkillData[];
-    performance: any[];
-  }>> {
+  async getSkills(): Promise<ApiResponse<any>> {
     return apiCall('/skills');
   },
 
-  async createSibling(traits: any = {}): Promise<ApiResponse<{
-    success: boolean;
-    sibling: any;
-    message: string;
-  }>> {
+  async createSibling(data: any): Promise<ApiResponse<any>> {
     return apiCall('/skills/create-sibling', {
       method: 'POST',
-      body: JSON.stringify({ traits }),
+      body: JSON.stringify(data),
     });
   },
 };
 
-// Settings API
 export const settingsApi = {
-  async getSettings(): Promise<ApiResponse<{ settings: any }>> {
+  async getSettings(): Promise<ApiResponse<any>> {
     return apiCall('/settings');
   },
 
-  async updateSettings(settings: any): Promise<ApiResponse<{
-    success: boolean;
-    message: string;
-  }>> {
+  async updateSettings(settings: any): Promise<ApiResponse<any>> {
     return apiCall('/settings', {
       method: 'POST',
       body: JSON.stringify(settings),
@@ -222,36 +198,10 @@ export const settingsApi = {
   },
 };
 
-// Health Check API
-export const healthApi = {
-  async check(): Promise<ApiResponse<{
-    status: string;
-    timestamp: string;
-    service: string;
-    version: string;
-  }>> {
-    return apiCall('/health');
-  },
-};
-
-// Utility functions for error handling
-export const handleApiError = (error: string): string => {
-  // Common error messages translation
-  const errorMap: { [key: string]: string } = {
-    'Network Error': 'خطأ في الشبكة',
-    'Unauthorized': 'غير مصرح',
-    'Forbidden': 'ممنوع',
-    'Not Found': 'غير موجود',
-    'Internal Server Error': 'خطأ داخلي في الخادم',
-  };
-
-  return errorMap[error] || error;
-};
-
-// Real-time data fetching with auto-refresh
+// Real-time Data Hook
 export const useRealTimeData = <T>(
   apiFunction: () => Promise<ApiResponse<T>>,
-  interval: number = 30000 // 30 seconds
+  interval: number = 30000
 ) => {
   const [data, setData] = useState<T | null>(null);
   const [loading, setLoading] = useState(true);
@@ -278,17 +228,7 @@ export const useRealTimeData = <T>(
     return () => clearInterval(intervalId);
   }, [apiFunction, interval]);
 
-  const refetch = async () => {
-    const response = await apiFunction();
-    if (response.error) {
-      setError(response.error);
-    } else {
-      setData(response.data || null);
-      setError(null);
-    }
-  };
-
-  return { data, loading, error, refetch };
+  return { data, loading, error, refetch: () => apiFunction() };
 };
 
 export default {
@@ -298,7 +238,5 @@ export default {
   chatApi,
   skillsApi,
   settingsApi,
-  healthApi,
-  handleApiError,
   useRealTimeData,
 }; 

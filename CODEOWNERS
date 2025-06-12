@@ -1,0 +1,72 @@
+# مالكو الملفات والمجلدات
+
+# المالكون الرئيسيون
+* @cryptojoker710
+
+# الواجهة الأمامية
+/frontend/ @frontend-team
+/frontend/components/ @ui-team
+/frontend/pages/ @frontend-team
+/frontend/styles/ @ui-team
+/frontend/public/ @frontend-team
+
+# الخلفية
+/backend/ @backend-team
+/backend/api/ @api-team
+/backend/core/ @backend-team
+/backend/models/ @backend-team
+/backend/services/ @backend-team
+/backend/tests/ @qa-team
+
+# التوثيق
+/docs/ @docs-team
+*.md @docs-team
+
+# التكوين
+/.github/ @devops-team
+/docker/ @devops-team
+/nginx/ @devops-team
+
+# الاختبارات
+/tests/ @qa-team
+/backend/tests/ @qa-team
+/frontend/tests/ @qa-team
+
+# الأمان
+/backend/core/security.py @security-team
+/backend/core/auth.py @security-team
+/frontend/utils/auth.ts @security-team
+
+# قاعدة البيانات
+/backend/core/database.py @database-team
+/backend/migrations/ @database-team
+
+# التصميم
+/frontend/components/ui/ @ui-team
+/frontend/styles/ @ui-team
+/frontend/public/assets/ @ui-team
+
+# الترجمة
+/frontend/locales/ @localization-team
+/backend/locales/ @localization-team
+
+# الأدوات
+/scripts/ @devops-team
+/tools/ @devops-team
+
+# ملفات التكوين
+*.yml @devops-team
+*.yaml @devops-team
+*.json @devops-team
+*.env* @devops-team
+*.config.js @devops-team
+*.config.ts @devops-team
+
+# ملفات النظام
+.gitignore @devops-team
+.editorconfig @devops-team
+.prettierrc @devops-team
+.eslintrc @devops-team
+tsconfig.json @devops-team
+package.json @devops-team
+requirements.txt @devops-team 

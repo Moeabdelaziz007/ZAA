@@ -6,378 +6,171 @@ from datetime import datetime, timedelta
 import json
 from zero_system import ZeroSystem
 import hashlib
+from fastapi import FastAPI, Request
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.middleware.gzip import GZipMiddleware
+from fastapi.middleware.cache import CacheMiddleware
+from fastapi.responses import JSONResponse
+from fastapi.websockets import WebSocket
+import time
+from .api.routes import router
+from .utils.config import settings
+import asyncio
+from typing import List, Dict
+import logging
+from prometheus_client import Counter, Histogram
+import uvicorn
+from contextlib import asynccontextmanager
 
-app = Flask(__name__)
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
-# إعدادات البيئة
-app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY', 'zentix-ai-secret-key-2024')
-app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=24)
+# Prometheus metrics
+REQUEST_COUNT = Counter('http_requests_total', 'Total HTTP requests', ['method', 'endpoint'])
+REQUEST_LATENCY = Histogram('http_request_duration_seconds', 'HTTP request latency', ['method', 'endpoint'])
+AI_REQUEST_LATENCY = Histogram('ai_request_duration_seconds', 'AI request latency', ['model', 'operation'])
 
-# تهيئة JWT و CORS
-jwt = JWTManager(app)
-CORS(app, origins=["http://localhost:3000", "http://127.0.0.1:3000"])
+# WebSocket connection manager
+class ConnectionManager:
+    def __init__(self):
+        self.active_connections: List[WebSocket] = []
+        self.connection_metrics = Counter('websocket_connections_total', 'Total WebSocket connections')
+        self.message_metrics = Counter('websocket_messages_total', 'Total WebSocket messages')
 
-# إنشاء نظام Zero
-zero_system = ZeroSystem()
+    async def connect(self, websocket: WebSocket):
+        await websocket.accept()
+        self.active_connections.append(websocket)
+        self.connection_metrics.inc()
 
-# بيانات المستخدمين الوهمية (في التطبيق الحقيقي استخدم قاعدة بيانات)
-users_db = {
-    "admin": {
-        "id": "user_1", 
-        "username": "admin", 
-        "password": hashlib.sha256("admin123".encode()).hexdigest(),
-        "name": "المدير",
-        "email": "admin@zentix.ai",
-        "role": "admin"
-    },
-    "user": {
-        "id": "user_2",
-        "username": "user",
-        "password": hashlib.sha256("user123".encode()).hexdigest(), 
-        "name": "مستخدم تجريبي",
-        "email": "user@zentix.ai",
-        "role": "user"
-    }
-}
+    def disconnect(self, websocket: WebSocket):
+        self.active_connections.remove(websocket)
 
-# ========================= Auth Endpoints =========================
+    async def broadcast(self, message: str):
+        self.message_metrics.inc()
+        for connection in self.active_connections:
+            await connection.send_text(message)
 
-@app.route('/api/auth/login', methods=['POST'])
-def login():
-    """تسجيل الدخول باستخدام JWT"""
-    try:
-        data = request.get_json()
-        username = data.get('username', '')
-        password = data.get('password', '')
-        
-        if not username or not password:
-            return jsonify({"error": "اسم المستخدم وكلمة المرور مطلوبان"}), 400
-            
-        # التحقق من المستخدم
-        user = users_db.get(username)
-        if not user or user['password'] != hashlib.sha256(password.encode()).hexdigest():
-            return jsonify({"error": "بيانات تسجيل الدخول غير صحيحة"}), 401
-            
-        # إنشاء JWT token
-        access_token = create_access_token(
-            identity=user['id'],
-            additional_claims={
-                "username": user['username'],
-                "name": user['name'],
-                "role": user['role']
-            }
-        )
-        
-        return jsonify({
-            "access_token": access_token,
-            "user": {
-                "id": user['id'],
-                "username": user['username'], 
-                "name": user['name'],
-                "email": user['email'],
-                "role": user['role']
-            }
-        }), 200
-        
-    except Exception as e:
-        return jsonify({"error": f"خطأ في تسجيل الدخول: {str(e)}"}), 500
+manager = ConnectionManager()
 
-@app.route('/api/auth/profile', methods=['GET'])
-@jwt_required()
-def get_profile():
-    """الحصول على بيانات المستخدم الحالي"""
-    try:
-        current_user_id = get_jwt_identity()
-        
-        # البحث عن المستخدم
-        user = None
-        for u in users_db.values():
-            if u['id'] == current_user_id:
-                user = u
-                break
-                
-        if not user:
-            return jsonify({"error": "المستخدم غير موجود"}), 404
-            
-        return jsonify({
-            "user": {
-                "id": user['id'],
-                "username": user['username'],
-                "name": user['name'], 
-                "email": user['email'],
-                "role": user['role']
-            }
-        }), 200
-        
-    except Exception as e:
-        return jsonify({"error": f"خطأ في الحصول على البيانات: {str(e)}"}), 500
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup
+    logger.info("Starting up application...")
+    yield
+    # Shutdown
+    logger.info("Shutting down application...")
 
-# ========================= Dashboard Endpoints =========================
+app = FastAPI(
+    title="Zentix AI API",
+    description="AI-powered recommendation system API",
+    version="1.0.0",
+    lifespan=lifespan
+)
 
-@app.route('/api/dashboard/stats', methods=['GET'])
-@jwt_required()
-def get_dashboard_stats():
-    """إحصائيات Dashboard الرئيسية"""
-    try:
-        stats = zero_system.system_status()
-        
-        return jsonify({
-            "total_interactions": stats.get("interactions", 1247),
-            "active_users": 89,
-            "happiness_level": 92,
-            "response_time": "0.3s",
-            "uptime": stats.get("uptime", "15 أيام، 3 ساعات"),
-            "skills_count": stats.get("skills", 4),
-            "dna_backup": stats.get("dna_backup", "")
-        }), 200
-        
-    except Exception as e:
-        return jsonify({"error": f"خطأ في الحصول على الإحصائيات: {str(e)}"}), 500
+# Middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-@app.route('/api/dashboard/interactions', methods=['GET'])
-@jwt_required()
-def get_interactions_data():
-    """بيانات التفاعلات اليومية"""
-    try:
-        # بيانات وهمية - في التطبيق الحقيقي احصل عليها من قاعدة البيانات
-        interactions_data = [
-            {"time": "09:00", "تفاعلات": 12},
-            {"time": "12:00", "تفاعلات": 25},
-            {"time": "15:00", "تفاعلات": 18},
-            {"time": "18:00", "تفاعلات": 32},
-            {"time": "21:00", "تفاعلات": 28},
-        ]
-        
-        return jsonify({"data": interactions_data}), 200
-        
-    except Exception as e:
-        return jsonify({"error": f"خطأ في الحصول على بيانات التفاعلات: {str(e)}"}), 500
+app.add_middleware(GZipMiddleware, minimum_size=1000)
+app.add_middleware(CacheMiddleware, cache_timeout=60)
 
-@app.route('/api/dashboard/activities', methods=['GET'])
-@jwt_required()
-def get_recent_activities():
-    """النشاطات الأخيرة"""
-    try:
-        activities = [
-            {"user": "أحمد محمد", "action": "طلب دعم نفسي", "time": "منذ دقيقتين", "status": "success"},
-            {"user": "فاطمة علي", "action": "سؤال تقني", "time": "منذ 5 دقائق", "status": "active"},
-            {"user": "محمد حسن", "action": "إنشاء أخ رقمي", "time": "منذ 10 دقائق", "status": "success"},
-            {"user": "سارة أحمد", "action": "محادثة عامة", "time": "منذ 15 دقيقة", "status": "success"},
-        ]
-        
-        return jsonify({"activities": activities}), 200
-        
-    except Exception as e:
-        return jsonify({"error": f"خطأ في الحصول على النشاطات: {str(e)}"}), 500
-
-# ========================= Emotions Endpoints =========================
-
-@app.route('/api/emotions/weekly', methods=['GET'])
-@jwt_required()
-def get_weekly_emotions():
-    """تحليل المشاعر الأسبوعي"""
-    try:
-        emotion_data = [
-            {"name": "الاثنين", "سعادة": 80, "قلق": 20, "حياد": 30},
-            {"name": "الثلاثاء", "سعادة": 65, "قلق": 35, "حياد": 25},
-            {"name": "الأربعاء", "سعادة": 90, "قلق": 15, "حياد": 40},
-            {"name": "الخميس", "سعادة": 75, "قلق": 25, "حياد": 35},
-            {"name": "الجمعة", "سعادة": 95, "قلق": 10, "حياد": 45},
-            {"name": "السبت", "سعادة": 85, "قلق": 20, "حياد": 50},
-            {"name": "الأحد", "سعادة": 70, "قلق": 30, "حياد": 30},
-        ]
-        
-        return jsonify({"data": emotion_data}), 200
-        
-    except Exception as e:
-        return jsonify({"error": f"خطأ في الحصول على بيانات المشاعر: {str(e)}"}), 500
-
-@app.route('/api/emotions/analyze', methods=['POST'])
-@jwt_required()
-def analyze_emotion():
-    """تحليل مشاعر نص معين"""
-    try:
-        data = request.get_json()
-        text = data.get('text', '')
-        
-        if not text:
-            return jsonify({"error": "النص مطلوب"}), 400
-            
-        # استخدام مهارة تحليل المشاعر من Zero System
-        result = zero_system.skills['empathy_sensor'].execute(text)
-        
-        return jsonify({
-            "emotion": result.get('empathy', 'محايد'),
-            "confidence": 0.85,
-            "analysis": result
-        }), 200
-        
-    except Exception as e:
-        return jsonify({"error": f"خطأ في تحليل المشاعر: {str(e)}"}), 500
-
-# ========================= Chat Endpoints =========================
-
-@app.route('/api/chat/message', methods=['POST'])
-@jwt_required()
-def send_message():
-    """إرسال رسالة للذكاء الاصطناعي"""
-    try:
-        current_user_id = get_jwt_identity()
-        data = request.get_json()
-        message = data.get('message', '')
-        
-        if not message:
-            return jsonify({"error": "الرسالة مطلوبة"}), 400
-            
-        # البحث عن بيانات المستخدم
-        user_profile = None
-        for u in users_db.values():
-            if u['id'] == current_user_id:
-                user_profile = {
-                    "id": u['id'],
-                    "name": u['name']
-                }
-                break
-                
-        # إرسال الرسالة لنظام Zero
-        response = zero_system.interact(message, user_profile)
-        
-        return jsonify({
-            "response": response.get('output', 'عذراً، لم أستطع فهم طلبك'),
-            "mood": response.get('mood', 'محايد'),
-            "personality": response.get('personality', {}),
-            "timestamp": datetime.now().isoformat()
-        }), 200
-        
-    except Exception as e:
-        return jsonify({"error": f"خطأ في إرسال الرسالة: {str(e)}"}), 500
-
-# ========================= Skills Endpoints =========================
-
-@app.route('/api/skills', methods=['GET'])
-@jwt_required()
-def get_skills():
-    """الحصول على جميع المهارات وحالتها"""
-    try:
-        skills_data = [
-            {"name": "مستشعر التعاطف", "status": "نشط", "performance": 95, "description": "يحلل المشاعر من النص"},
-            {"name": "الصداقة الرقمية", "status": "نشط", "performance": 88, "description": "يكون علاقات شخصية مع المستخدمين"},
-            {"name": "التجسيد الذهني", "status": "نشط", "performance": 92, "description": "يعدل الأسلوب حسب السياق"},
-            {"name": "إنشاء الأشقاء", "status": "تطوير", "performance": 78, "description": "ينشئ أشقاء رقميين جدد"},
-        ]
-        
-        skills_performance = [
-            {"skill": "التعاطف", "فعالية": 95},
-            {"skill": "الصداقة الرقمية", "فعالية": 88},
-            {"skill": "التجسيد الذهني", "فعالية": 92},
-            {"skill": "إنشاء الأشقاء", "فعالية": 78},
-        ]
-        
-        return jsonify({
-            "skills": skills_data,
-            "performance": skills_performance
-        }), 200
-        
-    except Exception as e:
-        return jsonify({"error": f"خطأ في الحصول على المهارات: {str(e)}"}), 500
-
-@app.route('/api/skills/create-sibling', methods=['POST'])
-@jwt_required()
-def create_sibling():
-    """إنشاء أخ رقمي جديد"""
-    try:
-        data = request.get_json()
-        traits = data.get('traits', {})
-        
-        # إنشاء أخ رقمي باستخدام Zero System
-        result = zero_system.create_sibling(traits)
-        
-        return jsonify({
-            "success": True,
-            "sibling": result,
-            "message": "تم إنشاء الأخ الرقمي بنجاح!"
-        }), 200
-        
-    except Exception as e:
-        return jsonify({"error": f"خطأ في إنشاء الأخ الرقمي: {str(e)}"}), 500
-
-# ========================= Settings Endpoints =========================
-
-@app.route('/api/settings', methods=['GET'])
-@jwt_required()
-def get_settings():
-    """الحصول على إعدادات النظام"""
-    try:
-        settings = {
-            "logging_enabled": True,
-            "emotion_analysis": True,
-            "auto_backup": True,
-            "language": "ar",
-            "theme": "dark",
-            "notifications": True
-        }
-        
-        return jsonify({"settings": settings}), 200
-        
-    except Exception as e:
-        return jsonify({"error": f"خطأ في الحصول على الإعدادات: {str(e)}"}), 500
-
-@app.route('/api/settings', methods=['POST'])
-@jwt_required()
-def update_settings():
-    """تحديث إعدادات النظام"""
-    try:
-        data = request.get_json()
-        # في التطبيق الحقيقي، احفظ الإعدادات في قاعدة البيانات
-        
-        return jsonify({
-            "success": True,
-            "message": "تم تحديث الإعدادات بنجاح"
-        }), 200
-        
-    except Exception as e:
-        return jsonify({"error": f"خطأ في تحديث الإعدادات: {str(e)}"}), 500
-
-# ========================= Health Check =========================
-
-@app.route('/api/health', methods=['GET'])
-def health_check():
-    """فحص صحة الخدمة"""
-    return jsonify({
-        "status": "healthy",
-        "timestamp": datetime.now().isoformat(),
-        "service": "Zentix AI Backend",
-        "version": "0.1.0"
-    }), 200
-
-# ========================= Error Handlers =========================
-
-@app.errorhandler(404)
-def not_found(error):
-    return jsonify({"error": "المسار غير موجود"}), 404
-
-@app.errorhandler(500)
-def internal_error(error):
-    return jsonify({"error": "خطأ داخلي في الخادم"}), 500
-
-@jwt.expired_token_loader
-def expired_token_callback(jwt_header, jwt_payload):
-    return jsonify({"error": "انتهت صلاحية الجلسة، يرجى تسجيل الدخول مرة أخرى"}), 401
-
-@jwt.invalid_token_loader
-def invalid_token_callback(error):
-    return jsonify({"error": "رمز مصادقة غير صالح"}), 401
-
-@jwt.unauthorized_loader
-def missing_token_callback(error):
-    return jsonify({"error": "رمز المصادقة مطلوب"}), 401
-
-if __name__ == '__main__':
-    port = int(os.getenv('PORT', 5000))
-    debug = os.getenv('FLASK_ENV') == 'development'
+# Performance monitoring middleware
+@app.middleware("http")
+async def performance_monitoring(request: Request, call_next):
+    start_time = time.time()
+    response = await call_next(request)
+    process_time = time.time() - start_time
     
-    print("🚀 تشغيل Zentix AI Backend API...")
-    print(f"📡 الخادم يعمل على البورت: {port}")
-    print(f"🌍 الوضع: {'تطوير' if debug else 'إنتاج'}")
+    REQUEST_COUNT.labels(method=request.method, endpoint=request.url.path).inc()
+    REQUEST_LATENCY.labels(method=request.method, endpoint=request.url.path).observe(process_time)
     
-    app.run(host='0.0.0.0', port=port, debug=debug) 
+    response.headers["X-Process-Time"] = str(process_time)
+    return response
+
+# AI request optimization
+async def optimize_ai_request(model: str, operation: str, request_func):
+    start_time = time.time()
+    try:
+        result = await request_func()
+        AI_REQUEST_LATENCY.labels(model=model, operation=operation).observe(time.time() - start_time)
+        return result
+    except Exception as e:
+        logger.error(f"AI request failed: {str(e)}")
+        raise
+
+# WebSocket endpoints
+@app.websocket("/ws")
+async def websocket_endpoint(websocket: WebSocket):
+    await manager.connect(websocket)
+    try:
+        while True:
+            data = await websocket.receive_text()
+            # Process AI request with optimization
+            result = await optimize_ai_request(
+                model="recommendation",
+                operation="realtime",
+                request_func=lambda: process_realtime_recommendation(data)
+            )
+            await manager.broadcast(result)
+    except Exception as e:
+        logger.error(f"WebSocket error: {str(e)}")
+    finally:
+        manager.disconnect(websocket)
+
+# Health check endpoint
+@app.get("/health")
+async def health_check():
+    return JSONResponse(
+        content={"status": "healthy"},
+        status_code=200
+    )
+
+# AI endpoints with optimization
+@app.post("/api/v1/recommendations/")
+async def get_recommendations(request: Request):
+    return await optimize_ai_request(
+        model="recommendation",
+        operation="batch",
+        request_func=lambda: process_batch_recommendation(request)
+    )
+
+@app.post("/api/v1/ai/analyze")
+async def analyze_content(request: Request):
+    return await optimize_ai_request(
+        model="analysis",
+        operation="content",
+        request_func=lambda: process_content_analysis(request)
+    )
+
+# Helper functions
+async def process_realtime_recommendation(data: str) -> str:
+    # Implement real-time recommendation logic
+    await asyncio.sleep(0.1)  # Simulate AI processing
+    return f"Processed recommendation for: {data}"
+
+async def process_batch_recommendation(request: Request) -> Dict:
+    # Implement batch recommendation logic
+    await asyncio.sleep(0.5)  # Simulate AI processing
+    return {"recommendations": ["item1", "item2", "item3"]}
+
+async def process_content_analysis(request: Request) -> Dict:
+    # Implement content analysis logic
+    await asyncio.sleep(0.3)  # Simulate AI processing
+    return {"analysis": "Content analyzed successfully"}
+
+if __name__ == "__main__":
+    uvicorn.run(
+        "app:app",
+        host="0.0.0.0",
+        port=8000,
+        workers=4,
+        loop="uvloop",
+        http="httptools",
+        reload=True
+    ) 

@@ -1,0 +1,116 @@
+@startuml Zentix AI Architecture
+
+!define RECTANGLE class
+
+skinparam backgroundColor white
+skinparam handwritten false
+skinparam defaultFontName "Cairo"
+skinparam defaultFontSize 14
+skinparam roundCorner 20
+skinparam shadowing false
+
+skinparam rectangle {
+    BackgroundColor white
+    BorderColor #2563EB
+    FontColor #1E40AF
+}
+
+' Frontend Components
+package "Frontend" {
+    RECTANGLE "Next.js App" as NextApp {
+        + Pages
+        + Components
+        + Hooks
+        + Utils
+    }
+    
+    RECTANGLE "State Management" as State {
+        + Redux Store
+        + API Client
+        + Cache
+    }
+}
+
+' Backend Components
+package "Backend" {
+    RECTANGLE "FastAPI Server" as FastAPI {
+        + API Routes
+        + Middleware
+        + Dependencies
+    }
+    
+    RECTANGLE "Services" as Services {
+        + User Service
+        + Item Service
+        + Recommendation Service
+        + Analytics Service
+    }
+    
+    RECTANGLE "Models" as Models {
+        + User Model
+        + Item Model
+        + Interaction Model
+        + Preference Model
+    }
+}
+
+' Database & Cache
+package "Data Layer" {
+    database "PostgreSQL" as Postgres
+    database "Redis Cache" as Redis
+}
+
+' External Services
+package "External Services" {
+    cloud "Sentry" as Sentry
+    cloud "Prometheus" as Prometheus
+    cloud "Grafana" as Grafana
+}
+
+' AI Components
+package "AI Layer" {
+    RECTANGLE "Recommendation Engine" as AI {
+        + Model Training
+        + Prediction
+        + Feature Engineering
+    }
+    
+    RECTANGLE "Analytics Engine" as Analytics {
+        + User Behavior
+        + Performance Metrics
+        + Business Intelligence
+    }
+}
+
+' Relationships
+NextApp --> State
+State --> FastAPI
+FastAPI --> Services
+Services --> Models
+Models --> Postgres
+Services --> Redis
+Services --> AI
+Services --> Analytics
+
+' Monitoring
+FastAPI --> Sentry
+FastAPI --> Prometheus
+Prometheus --> Grafana
+
+' Notes
+note right of NextApp
+  React Components
+  with TypeScript
+end note
+
+note right of FastAPI
+  RESTful API
+  with OpenAPI
+end note
+
+note right of AI
+  Machine Learning
+  Models
+end note
+
+@enduml 

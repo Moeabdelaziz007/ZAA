@@ -1,0 +1,91 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# Python files
+*.py text diff=python
+
+# JavaScript/TypeScript files
+*.js text diff=javascript
+*.jsx text diff=javascript
+*.ts text diff=typescript
+*.tsx text diff=typescript
+
+# YAML files
+*.yml text diff=yaml
+*.yaml text diff=yaml
+
+# JSON files
+*.json text diff=json
+
+# Markdown files
+*.md text diff=markdown
+
+# Docker files
+Dockerfile text
+docker-compose.yml text
+
+# Shell scripts
+*.sh text eol=lf
+
+# HTML files
+*.html text diff=html
+
+# CSS files
+*.css text diff=css
+*.scss text diff=css
+
+# Binary files
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.zip binary
+*.pdf binary
+*.ttf binary
+*.woff binary
+*.woff2 binary
+*.eot binary
+*.otf binary
+
+# Documentation
+docs/* text diff=markdown
+
+# Tests
+tests/* text diff=python
+
+# Configuration files
+*.ini text
+*.conf text
+*.config text
+*.toml text
+*.yaml text
+*.yml text
+*.json text
+
+# Logs
+*.log text
+*.txt text
+
+# Temporary files
+*.tmp text
+*.temp text
+*.swp text
+*.swo text
+*.bak text
+*.backup text
+
+# IDE files
+.idea/* text
+.vscode/* text
+*.sublime-* text
+
+# Build files
+dist/* binary
+build/* binary
+*.egg-info/* text
+*.egg binary
+
+# Environment files
+.env* text
+.env.* text 
