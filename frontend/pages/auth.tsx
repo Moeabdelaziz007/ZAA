@@ -1,32 +1,38 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Badge } from '@/components/ui/badge';
-import { Brain, Eye, EyeOff, Loader2, Lock, User } from 'lucide-react';
-import { authApi } from '@/lib/api';
-import { useToast } from '@/lib/toast';
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/router";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Badge } from "@/components/ui/badge";
+import { Brain, Eye, EyeOff, Loader2, Lock, User } from "lucide-react";
+import { authApi } from "@/lib/api";
+import { useToast } from "@/lib/toast";
 
 export default function AuthPage() {
   const [formData, setFormData] = useState({
-    username: '',
-    password: '',
+    username: "",
+    password: "",
   });
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
-  
+
   const router = useRouter();
   const { success, error } = useToast();
 
   // Check if user is already authenticated
   useEffect(() => {
     if (authApi.isAuthenticated()) {
-      router.push('/dashboard');
+      router.push("/dashboard/overview");
     }
   }, [router]);
 
@@ -34,13 +40,13 @@ export default function AuthPage() {
     const newErrors: { [key: string]: string } = {};
 
     if (!formData.username.trim()) {
-      newErrors.username = 'اسم المستخدم مطلوب';
+      newErrors.username = "اسم المستخدم مطلوب";
     }
 
     if (!formData.password) {
-      newErrors.password = 'كلمة المرور مطلوبة';
+      newErrors.password = "كلمة المرور مطلوبة";
     } else if (formData.password.length < 3) {
-      newErrors.password = 'كلمة المرور قصيرة جداً';
+      newErrors.password = "كلمة المرور قصيرة جداً";
     }
 
     setErrors(newErrors);
@@ -49,7 +55,7 @@ export default function AuthPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       return;
     }
@@ -57,16 +63,19 @@ export default function AuthPage() {
     setIsLoading(true);
 
     try {
-      const response = await authApi.login(formData.username, formData.password);
-      
+      const response = await authApi.login(
+        formData.username,
+        formData.password,
+      );
+
       if (response.error) {
-        error('فشل تسجيل الدخول', response.error);
+        error("فشل تسجيل الدخول", response.error);
       } else if (response.data) {
-        success('تم تسجيل الدخول بنجاح', `مرحباً ${response.data.user.name}!`);
-        router.push('/dashboard');
+        success("تم تسجيل الدخول بنجاح", `مرحباً ${response.data.user.name}!`);
+        router.push("/dashboard/overview");
       }
     } catch (err) {
-      error('خطأ غير متوقع', 'حدث خطأ أثناء تسجيل الدخول');
+      error("خطأ غير متوقع", "حدث خطأ أثناء تسجيل الدخول");
     } finally {
       setIsLoading(false);
     }
@@ -74,20 +83,20 @@ export default function AuthPage() {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-    
+    setFormData((prev) => ({ ...prev, [name]: value }));
+
     // Clear error when user starts typing
     if (errors[name]) {
-      setErrors(prev => ({ ...prev, [name]: '' }));
+      setErrors((prev) => ({ ...prev, [name]: "" }));
     }
   };
 
-  const fillDemoCredentials = (type: 'admin' | 'user') => {
+  const fillDemoCredentials = (type: "admin" | "user") => {
     const credentials = {
-      admin: { username: 'admin', password: 'admin123' },
-      user: { username: 'user', password: 'user123' }
+      admin: { username: "admin", password: "admin123" },
+      user: { username: "user", password: "user123" },
     };
-    
+
     setFormData(credentials[type]);
     setErrors({});
   };
@@ -121,7 +130,7 @@ export default function AuthPage() {
             <Button
               variant="outline"
               size="sm"
-              onClick={() => fillDemoCredentials('admin')}
+              onClick={() => fillDemoCredentials("admin")}
               className="flex-1 bg-purple-500/10 border-purple-500/20 text-purple-400 hover:bg-purple-500/20"
             >
               مدير
@@ -129,7 +138,7 @@ export default function AuthPage() {
             <Button
               variant="outline"
               size="sm"
-              onClick={() => fillDemoCredentials('user')}
+              onClick={() => fillDemoCredentials("user")}
               className="flex-1 bg-blue-500/10 border-blue-500/20 text-blue-400 hover:bg-blue-500/20"
             >
               مستخدم
@@ -163,7 +172,7 @@ export default function AuthPage() {
                     value={formData.username}
                     onChange={handleInputChange}
                     className={`pl-10 bg-gray-800 border-gray-600 text-white ${
-                      errors.username ? 'border-red-500' : ''
+                      errors.username ? "border-red-500" : ""
                     }`}
                     disabled={isLoading}
                   />
@@ -182,12 +191,12 @@ export default function AuthPage() {
                   <Input
                     id="password"
                     name="password"
-                    type={showPassword ? 'text' : 'password'}
+                    type={showPassword ? "text" : "password"}
                     placeholder="ادخل كلمة المرور"
                     value={formData.password}
                     onChange={handleInputChange}
                     className={`pl-10 pr-10 bg-gray-800 border-gray-600 text-white ${
-                      errors.password ? 'border-red-500' : ''
+                      errors.password ? "border-red-500" : ""
                     }`}
                     disabled={isLoading}
                   />
@@ -220,7 +229,7 @@ export default function AuthPage() {
                     جاري تسجيل الدخول...
                   </>
                 ) : (
-                  'تسجيل الدخول'
+                  "تسجيل الدخول"
                 )}
               </Button>
             </form>
@@ -236,10 +245,22 @@ export default function AuthPage() {
           </div>
           <div className="grid grid-cols-1 gap-3">
             {[
-              { icon: '🧠', title: 'ذكاء اصطناعي عاطفي', desc: 'يفهم مشاعرك ويتفاعل معها' },
-              { icon: '💬', title: 'محادثة ذكية', desc: 'تفاعل طبيعي باللغة العربية' },
-              { icon: '📊', title: 'تحليل المشاعر', desc: 'مراقبة وتحليل الحالة النفسية' },
-              { icon: '⚡', title: 'استجابة سريعة', desc: 'أداء عالي وموثوق' },
+              {
+                icon: "🧠",
+                title: "ذكاء اصطناعي عاطفي",
+                desc: "يفهم مشاعرك ويتفاعل معها",
+              },
+              {
+                icon: "💬",
+                title: "محادثة ذكية",
+                desc: "تفاعل طبيعي باللغة العربية",
+              },
+              {
+                icon: "📊",
+                title: "تحليل المشاعر",
+                desc: "مراقبة وتحليل الحالة النفسية",
+              },
+              { icon: "⚡", title: "استجابة سريعة", desc: "أداء عالي وموثوق" },
             ].map((feature, index) => (
               <div
                 key={index}
@@ -267,4 +288,4 @@ export default function AuthPage() {
       </div>
     </div>
   );
-} 
+}
