@@ -1,3 +1,5 @@
+ mzfkbd-codex/create-dashboard-components-and-pages
+=======
  codex/create-dashboard-components-and-pages
 "use client";
 import React from "react";
@@ -11,6 +13,7 @@ const AnalyticsPage: React.FC = () => (
 
 export default AnalyticsPage;
 =======
+ main
 'use client';
 import { useEffect, useState } from 'react';
 import { dashboardApi } from '@/lib/api';
@@ -53,4 +56,7 @@ export default function AnalyticsPage() {
     </div>
   );
 }
+ mzfkbd-codex/create-dashboard-components-and-pages
+=======
+ main
  main

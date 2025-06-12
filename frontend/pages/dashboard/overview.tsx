@@ -1,3 +1,5 @@
+ mzfkbd-codex/create-dashboard-components-and-pages
+=======
  codex/create-dashboard-components-and-pages
 "use client";
 import React from "react";
@@ -13,6 +15,7 @@ const OverviewPage: React.FC = () => (
 
 export default OverviewPage;
 =======
+ main
 'use client';
 import { useRealTimeData, dashboardApi } from '@/lib/api';
 import StatsCard from '@/components/dashboard/StatsCard';
@@ -34,7 +37,10 @@ export default function OverviewPage() {
         title="Latest Activity"
         activities={activities?.activities ?? []}
       />
-    </div>
-  );
-}
- main
+      </div>
+    );
+  }
+  <<<<<<< mzfkbd-codex/create-dashboard-components-and-pages
+  =======
+   main
+  >>>>>>> main
