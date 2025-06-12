@@ -52,15 +52,10 @@
         "wouter": "^3.1.0",
         "zod": "^3.22.4"
     },
-      "devDependencies": {
-  <<<<<<< dependabot/npm_and_yarn/frontend/types/node-24.0.1
-          "@types/node": "^24",
-          "@types/react": "^18",
-  =======
-   dependabot/npm_and_yarn/frontend/types/react-19.1.8
-          "@types/node": "^20",
-          "@types/react": "^19",
-  >>>>>>> main
+    "devDependencies": {
+ dependabot/npm_and_yarn/frontend/types/react-19.1.8
+        "@types/node": "^20",
+        "@types/react": "^19",
         "@types/react-dom": "^19",
 
         "@types/node": "^20.19.0",
