@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -10,11 +11,7 @@ import { Brain, Eye, EyeOff, Loader2, Lock, User } from 'lucide-react';
 import { authApi } from '@/lib/api';
 import { useToast } from '@/lib/toast';
 
-interface AuthPageProps {
-  onLoginSuccess?: () => void;
-}
-
-export default function AuthPage({ onLoginSuccess }: AuthPageProps) {
+export default function AuthPage() {
   const [formData, setFormData] = useState({
     username: '',
     password: '',
@@ -23,14 +20,15 @@ export default function AuthPage({ onLoginSuccess }: AuthPageProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   
+  const router = useRouter();
   const { success, error } = useToast();
 
   // Check if user is already authenticated
   useEffect(() => {
     if (authApi.isAuthenticated()) {
-      onLoginSuccess?.();
+      router.push('/dashboard');
     }
-  }, [onLoginSuccess]);
+  }, [router]);
 
   const validateForm = () => {
     const newErrors: { [key: string]: string } = {};
@@ -65,7 +63,7 @@ export default function AuthPage({ onLoginSuccess }: AuthPageProps) {
         error('فشل تسجيل الدخول', response.error);
       } else if (response.data) {
         success('تم تسجيل الدخول بنجاح', `مرحباً ${response.data.user.name}!`);
-        onLoginSuccess?.();
+        router.push('/dashboard');
       }
     } catch (err) {
       error('خطأ غير متوقع', 'حدث خطأ أثناء تسجيل الدخول');
@@ -269,4 +267,4 @@ export default function AuthPage({ onLoginSuccess }: AuthPageProps) {
       </div>
     </div>
   );
-}
+} 
