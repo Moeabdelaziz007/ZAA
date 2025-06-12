@@ -100,6 +100,8 @@ zentix-clean/
     └── deploy.sh
 ```
 
+![Architecture Diagram](docs/architecture/architecture.svg)
+
 يضم مجلد **frontend/components/ui** مجلدين فرعيين `effects/` و `animations/` يضمان أمثلة مبسطة لاستخدام مكتبة **framer-motion** مثل `FadeIn.tsx` و `SlideIn.tsx`.
 
 ## المساهمة

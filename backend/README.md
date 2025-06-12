@@ -20,6 +20,13 @@ This is the backend service for the Zentix AI recommendation system. It provides
 - Alembic
 - Pydantic
 - JWT Authentication
+### Project Structure
+- api/ (routes.py, v1/endpoints/)
+- models/
+- services/
+
+Models and services reside at `backend/models` and `backend/services` outside the api folder.
+
 
 ## Prerequisites
 
