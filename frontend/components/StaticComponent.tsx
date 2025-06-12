@@ -1,11 +1,13 @@
 /**
- * LoadingIndicator
- * Spinner component with customizable size and accent color, supporting dark mode and glassmorphism.
+ * Component: LoadingIndicator
+ * المؤلف: محمد عبدالعزيز (Amrikyy)
  * 
- * مؤشر تحميل دائري مع إمكانية تخصيص الحجم واللون، يدعم الوضع الداكن وتأثير الزجاج.
+ * Description (EN): Circular loading spinner with progress and accent color support. Used for global and local loading states.
+ * الوصف (ع): مؤشر تحميل دائري يدعم تخصيص اللون ونسبة التقدم، يستخدم لحالات التحميل العامة والمحلية.
  * 
- * @param size - حجم المؤشر: صغير | متوسط | كبير
- * @param accentColor - لون التمييز (افتراضي: أخضر نيون)
+ * Props:
+ * - size: 'small' | 'medium' | 'large'   // حجم المؤشر
+ * - accentColor: string                  // لون التمييز (Tailwind أو Hex)
  */
 import React from 'react';
 
@@ -19,9 +21,9 @@ export const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({
   accentColor = 'green-500'
 }) => {
   const sizes: Record<'small' | 'medium' | 'large', string> = {
-    small: 'h-6 w-6',
-    medium: 'h-8 w-8',
-    large: 'h-12 w-12'
+    small: 'h-4 w-4 sm:h-6 sm:w-6',
+    medium: 'h-6 w-6 sm:h-8 sm:w-8',
+    large: 'h-8 w-8 sm:h-12 sm:w-12'
   };
 
   return (

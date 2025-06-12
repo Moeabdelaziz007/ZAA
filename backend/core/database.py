@@ -7,6 +7,8 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from contextlib import contextmanager
+from fastapi import HTTPException
+from sqlalchemy.exc import SQLAlchemyError
 
 from .config import DATABASE_URL
 
@@ -41,4 +43,14 @@ def init_db():
     """
     Initialize the database by creating all tables.
     """
-    Base.metadata.create_all(bind=engine) 
+    Base.metadata.create_all(bind=engine)
+
+def get_user(db: Session, user_id: int):
+    try:
+        user = db.query(User).filter(User.id == user_id).first()
+        if not user:
+            raise HTTPException(status_code=404, detail="المستخدم غير موجود")
+        return user
+    except SQLAlchemyError as e:
+        logger.error(f"خطأ في قاعدة البيانات: {str(e)}")
+        raise HTTPException(status_code=500, detail="حدث خطأ في الخادم")
