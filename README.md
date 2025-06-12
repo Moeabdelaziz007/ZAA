@@ -87,6 +87,9 @@ zentix-clean/
 │       └── test_integration.py
 ├── frontend/
 │   ├── components/
+│   │   └── ui/
+│   │       ├── effects/
+│   │       └── animations/
 │   ├── pages/
 │   └── tests/
 ├── docs/
@@ -96,6 +99,8 @@ zentix-clean/
     ├── setup.sh
     └── deploy.sh
 ```
+
+يضم مجلد **frontend/components/ui** مجلدين فرعيين `effects/` و `animations/` يضمان أمثلة مبسطة لاستخدام مكتبة **framer-motion** مثل `FadeIn.tsx` و `SlideIn.tsx`.
 
 ## المساهمة
 
