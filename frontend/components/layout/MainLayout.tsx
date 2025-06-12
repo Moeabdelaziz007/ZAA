@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import { ThemeProvider } from 'next-themes';
+import { theme } from '../../styles/theme';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ThemeToggle } from '../common/ThemeToggle';
 
@@ -9,7 +10,7 @@ interface MainLayoutProps {
 
 export const MainLayout = ({ children }: MainLayoutProps) => {
   return (
-    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+    <ThemeProvider {...theme}>
       <div className="min-h-screen bg-white dark:bg-dark-bg text-gray-900 dark:text-dark-text transition-colors duration-200">
         <header className="sticky top-0 z-50 bg-white/80 dark:bg-dark-card/80 backdrop-blur-sm border-b border-gray-200 dark:border-gray-700">
           <nav className="container mx-auto px-4 py-4 flex items-center justify-between">
