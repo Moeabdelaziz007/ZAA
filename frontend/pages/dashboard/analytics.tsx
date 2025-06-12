@@ -1,19 +1,3 @@
- mzfkbd-codex/create-dashboard-components-and-pages
-=======
- codex/create-dashboard-components-and-pages
-"use client";
-import React from "react";
-import Charts from "@/components/dashboard/Charts";
-
-const AnalyticsPage: React.FC = () => (
-  <div className="space-y-6">
-    <Charts />
-  </div>
-);
-
-export default AnalyticsPage;
-=======
- main
 'use client';
 import { useEffect, useState } from 'react';
 import { dashboardApi } from '@/lib/api';
@@ -56,7 +40,3 @@ export default function AnalyticsPage() {
     </div>
   );
 }
- mzfkbd-codex/create-dashboard-components-and-pages
-=======
- main
- main

@@ -19,3 +19,4 @@ The development server will be available at `http://localhost:3000` by default.
 - **`/loading`** – Full-screen loading indicator.
 
 ![Frontend pages diagram](../docs/frontend-pages.svg)
+UI utilities live in `components/ui` including `effects/` and `animations/` folders with simple examples like `FadeIn` and `SlideIn`.

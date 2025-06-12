@@ -1,8 +1,6 @@
- codex/resolve-merge-conflicts-and-update-tests
-import logging
 import io
 import contextlib
-
+import logging
 from sss.zero_system import ZeroSystem, is_sibling_request
 
 
@@ -31,18 +29,3 @@ def test_interact_sibling(caplog):
     assert "المستخدم: أريد أخاً صغيراً" in captured
     assert response["sibling_id"] == "أخ رقمي #1"
     assert "Triggering sibling_genesis skill" in "\n".join(caplog.messages)
-=======
-from sss.zero_system import ZeroSystem, is_sibling_request
-
-
-def test_is_sibling_request_true():
-    assert is_sibling_request("اريد اخ صغير يساعدني")
-
-
-def test_create_sibling_increments_count():
-    system = ZeroSystem()
-    before = system.skills["sibling_genesis"].siblings_created
-    system.create_sibling()
-    after = system.skills["sibling_genesis"].siblings_created
-    assert after == before + 1
- main

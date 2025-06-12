@@ -1,19 +1,16 @@
-import { motion } from 'framer-motion';
-import { HTMLAttributes } from 'react';
-import { twMerge } from 'tailwind-merge';
+"use client";
+import { motion } from "framer-motion";
+import React from "react";
 
-interface FadeInProps extends HTMLAttributes<HTMLDivElement> {
+interface FadeInProps {
+  children: React.ReactNode;
   duration?: number;
 }
 
-export const FadeIn = ({ children, duration = 0.5, className, ...props }: FadeInProps) => (
-  <motion.div
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    transition={{ duration }}
-    className={twMerge(className)}
-    {...props}
-  >
+export const FadeIn = ({ children, duration = 0.5 }: FadeInProps) => (
+  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration }}>
     {children}
   </motion.div>
 );
+
+export default FadeIn;
