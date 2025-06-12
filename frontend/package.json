@@ -27,17 +27,21 @@
         "@tailwindcss/typography": "^0.5.10",
         "class-variance-authority": "^0.7.0",
         "clsx": "^2.1.1",
-        "framer-motion": "^10.16.4",
-        "lucide-react": "^0.438.0",
- clean-update
-        "next": "^14.2.23",
-        "next-themes": "^0.2.1",
-        "react": "^18.3.1",
-        "react-dom": "^18.3.1",
+          "framer-motion": "^10.16.4",
+          "lucide-react": "^0.438.0",
+  <<<<<<< dependabot/npm_and_yarn/frontend/next-15.3.3
+          "next": "15.3.3",
+  =======
+   clean-update
+          "next": "^14.2.23",
+          "next-themes": "^0.2.1",
+          "react": "^18.3.1",
+          "react-dom": "^18.3.1",
 
-        "next": "14.2.23",
-        "next-themes": "^0.4.6",
-        "react": "^19",
+          "next": "14.2.23",
+  >>>>>>> main
+          "next-themes": "^0.4.6",
+          "react": "^19",
         "react-dom": "^19",
  main
         "react-hook-form": "^7.51.0",
