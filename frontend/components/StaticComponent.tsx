@@ -28,14 +28,14 @@ export const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({
     <div className="flex justify-center items-center">
       <div
         className={`
-          animate-spin
-          rounded-full
+        animate-spin
+        rounded-full
           border-t-2 border-b-2
           border-${accentColor}
           bg-white/30 dark:bg-black/30
           backdrop-blur-md
           shadow-lg
-          ${sizes[size]}
+        ${sizes[size]}
         `}
         aria-label="Loading"
         title="Loading..."
