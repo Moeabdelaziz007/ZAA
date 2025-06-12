@@ -1,54 +1,58 @@
-"use client";
+'use client';
 
-  <<<<<<< codex/create-dashboard-components-and-pages
-  import React, { useState, useEffect } from "react";
-  import { useRouter } from "next/router";
-  import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-  } from "@/components/ui/card";
-  import { Button } from "@/components/ui/button";
-  import { Input } from "@/components/ui/input";
-  import { Label } from "@/components/ui/label";
-  import { Badge } from "@/components/ui/badge";
-  import { Brain, Eye, EyeOff, Loader2, Lock, User } from "lucide-react";
-  import { authApi } from "@/lib/api";
-  import { useToast } from "@/lib/toast";
+ codex/organize-auth-components-and-update-imports
+import React from 'react';
+import { Badge } from '@/components/ui/badge';
+import { Brain } from 'lucide-react';
+import LoginForm from './LoginForm';
+=======
+import React, { useState, useEffect } from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Badge } from '@/components/ui/badge';
+import { Brain, Eye, EyeOff, Loader2, Lock, User } from 'lucide-react';
+import { authApi } from '@/lib/api';
+import { useToast } from '@/lib/toast';
+ main
 
-  export default function AuthPage() {
-    const [formData, setFormData] = useState({
-      username: "",
-      password: "",
-    });
-    const [showPassword, setShowPassword] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
-    const [errors, setErrors] = useState<{ [key: string]: string }>({});
+interface AuthPageProps {
+  onLoginSuccess?: () => void;
+}
 
-    const router = useRouter();
-    const { success, error } = useToast();
+export default function AuthPage({ onLoginSuccess }: AuthPageProps) {
+ codex/organize-auth-components-and-update-imports
+=======
+  const [formData, setFormData] = useState({
+    username: '',
+    password: '',
+  });
+  const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  
+  const { success, error } = useToast();
 
-    // Check if user is already authenticated
-    useEffect(() => {
-      if (authApi.isAuthenticated()) {
-        router.push("/dashboard/overview");
-      }
-    }, [router]);
+  // Check if user is already authenticated
+  useEffect(() => {
+    if (authApi.isAuthenticated()) {
+      onLoginSuccess?.();
+    }
+  }, [onLoginSuccess]);
 
-    const validateForm = () => {
-      const newErrors: { [key: string]: string } = {};
+  const validateForm = () => {
+    const newErrors: { [key: string]: string } = {};
 
-      if (!formData.username.trim()) {
-        newErrors.username = "اسم المستخدم مطلوب";
-      }
+    if (!formData.username.trim()) {
+      newErrors.username = 'اسم المستخدم مطلوب';
+    }
 
-      if (!formData.password) {
-        newErrors.password = "كلمة المرور مطلوبة";
-      } else if (formData.password.length < 3) {
-        newErrors.password = "كلمة المرور قصيرة جداً";
-      }
+    if (!formData.password) {
+      newErrors.password = 'كلمة المرور مطلوبة';
+    } else if (formData.password.length < 3) {
+      newErrors.password = 'كلمة المرور قصيرة جداً';
+    }
 
       setErrors(newErrors);
       return Object.keys(newErrors).length === 0;
@@ -64,19 +68,16 @@
       setIsLoading(true);
 
       try {
-        const response = await authApi.login(
-          formData.username,
-          formData.password,
-        );
+        const response = await authApi.login(formData.username, formData.password);
 
         if (response.error) {
-          error("فشل تسجيل الدخول", response.error);
+          error('فشل تسجيل الدخول', response.error);
         } else if (response.data) {
-          success("تم تسجيل الدخول بنجاح", `مرحباً ${response.data.user.name}!`);
-          router.push("/dashboard/overview");
+          success('تم تسجيل الدخول بنجاح', `مرحباً ${response.data.user.name}!`);
+          onLoginSuccess?.();
         }
       } catch (err) {
-        error("خطأ غير متوقع", "حدث خطأ أثناء تسجيل الدخول");
+        error('خطأ غير متوقع', 'حدث خطأ أثناء تسجيل الدخول');
       } finally {
         setIsLoading(false);
       }
@@ -84,24 +85,25 @@
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const { name, value } = e.target;
-      setFormData((prev) => ({ ...prev, [name]: value }));
+      setFormData(prev => ({ ...prev, [name]: value }));
 
       // Clear error when user starts typing
       if (errors[name]) {
-        setErrors((prev) => ({ ...prev, [name]: "" }));
+        setErrors(prev => ({ ...prev, [name]: '' }));
       }
     };
 
-    const fillDemoCredentials = (type: "admin" | "user") => {
+    const fillDemoCredentials = (type: 'admin' | 'user') => {
       const credentials = {
-        admin: { username: "admin", password: "admin123" },
-        user: { username: "user", password: "user123" },
+        admin: { username: 'admin', password: 'admin123' },
+        user: { username: 'user', password: 'user123' }
       };
 
       setFormData(credentials[type]);
       setErrors({});
     };
 
+  >>>>>>> main
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center p-4">
         <div className="w-full max-w-md space-y-6">
@@ -114,6 +116,9 @@
               <h1 className="text-3xl font-bold bg-gradient-to-r from-white to-purple-200 bg-clip-text text-transparent">
                 Zentix AI
               </h1>
+   codex/organize-auth-components-and-update-imports
+              <p className="text-gray-400 mt-2">Arabic Emotional AI - Powered by Zentix</p>
+  =======
               <p className="text-gray-400 mt-2">
                 Arabic Emotional AI - Powered by Zentix
               </p>
@@ -131,7 +136,7 @@
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => fillDemoCredentials("admin")}
+                onClick={() => fillDemoCredentials('admin')}
                 className="flex-1 bg-purple-500/10 border-purple-500/20 text-purple-400 hover:bg-purple-500/20"
               >
                 مدير
@@ -139,15 +144,19 @@
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => fillDemoCredentials("user")}
+                onClick={() => fillDemoCredentials('user')}
                 className="flex-1 bg-blue-500/10 border-blue-500/20 text-blue-400 hover:bg-blue-500/20"
               >
                 مستخدم
               </Button>
+  >>>>>>> main
             </div>
           </div>
 
           {/* Login Form */}
+   codex/organize-auth-components-and-update-imports
+          <LoginForm onLoginSuccess={onLoginSuccess} />
+  =======
           <Card className="bg-black/40 border-purple-800/30 backdrop-blur-sm">
             <CardHeader className="space-y-1">
               <CardTitle className="text-2xl text-center text-white">
@@ -173,7 +182,7 @@
                       value={formData.username}
                       onChange={handleInputChange}
                       className={`pl-10 bg-gray-800 border-gray-600 text-white ${
-                        errors.username ? "border-red-500" : ""
+                        errors.username ? 'border-red-500' : ''
                       }`}
                       disabled={isLoading}
                     />
@@ -192,12 +201,12 @@
                     <Input
                       id="password"
                       name="password"
-                      type={showPassword ? "text" : "password"}
+                      type={showPassword ? 'text' : 'password'}
                       placeholder="ادخل كلمة المرور"
                       value={formData.password}
                       onChange={handleInputChange}
                       className={`pl-10 pr-10 bg-gray-800 border-gray-600 text-white ${
-                        errors.password ? "border-red-500" : ""
+                        errors.password ? 'border-red-500' : ''
                       }`}
                       disabled={isLoading}
                     />
@@ -230,74 +239,65 @@
                       جاري تسجيل الدخول...
                     </>
                   ) : (
-                    "تسجيل الدخول"
+                    'تسجيل الدخول'
                   )}
                 </Button>
               </form>
             </CardContent>
           </Card>
+  >>>>>>> main
 
           {/* Features */}
           <div className="space-y-4">
             <div className="text-center">
+   codex/organize-auth-components-and-update-imports
+              <h3 className="text-lg font-medium text-white mb-3">✨ مميزات النظام</h3>
+  =======
               <h3 className="text-lg font-medium text-white mb-3">
                 ✨ مميزات النظام
               </h3>
+   main
             </div>
             <div className="grid grid-cols-1 gap-3">
               {[
-                {
-                  icon: "🧠",
-                  title: "ذكاء اصطناعي عاطفي",
-                  desc: "يفهم مشاعرك ويتفاعل معها",
-                },
-                {
-                  icon: "💬",
-                  title: "محادثة ذكية",
-                  desc: "تفاعل طبيعي باللغة العربية",
-                },
-                {
-                  icon: "📊",
-                  title: "تحليل المشاعر",
-                  desc: "مراقبة وتحليل الحالة النفسية",
-                },
-                { icon: "⚡", title: "استجابة سريعة", desc: "أداء عالي وموثوق" },
+                { icon: '🧠', title: 'ذكاء اصطناعي عاطفي', desc: 'يفهم مشاعرك ويتفاعل معها' },
+                { icon: '💬', title: 'محادثة ذكية', desc: 'تفاعل طبيعي باللغة العربية' },
+                { icon: '📊', title: 'تحليل المشاعر', desc: 'مراقبة وتحليل الحالة النفسية' },
+                { icon: '⚡', title: 'استجابة سريعة', desc: 'أداء عالي وموثوق' },
               ].map((feature, index) => (
+   codex/organize-auth-components-and-update-imports
+                <div key={index} className="flex items-center gap-3 p-3 rounded-lg bg-gray-800/50 border border-gray-700/50">
+  =======
                 <div
                   key={index}
-                  className="flex items-center gap-3 p-3 rounded-lg bg-gray-800/50 border border-gray-700/50"
-                >
-                  <span className="text-2xl">{feature.icon}</span>
-                  <div>
-                    <h4 className="font-medium text-white">{feature.title}</h4>
-                    <p className="text-sm text-gray-400">{feature.desc}</p>
-                  </div>
+                className="flex items-center gap-3 p-3 rounded-lg bg-gray-800/50 border border-gray-700/50"
+              >
+ main
+                <span className="text-2xl">{feature.icon}</span>
+                <div>
+                  <h4 className="font-medium text-white">{feature.title}</h4>
+                  <p className="text-sm text-gray-400">{feature.desc}</p>
                 </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Footer */}
-          <div className="text-center space-y-2">
-            <p className="text-sm text-gray-500">
-              © 2024 Zentix AI. جميع الحقوق محفوظة.
-            </p>
-            <Badge className="bg-green-500/20 text-green-400">
-              نسخة تجريبية v0.1.0
-            </Badge>
+              </div>
+            ))}
           </div>
         </div>
+
+        {/* Footer */}
+        <div className="text-center space-y-2">
+ codex/organize-auth-components-and-update-imports
+          <p className="text-sm text-gray-500">© 2024 Zentix AI. جميع الحقوق محفوظة.</p>
+          <Badge className="bg-green-500/20 text-green-400">نسخة تجريبية v0.1.0</Badge>
+=======
+          <p className="text-sm text-gray-500">
+            © 2024 Zentix AI. جميع الحقوق محفوظة.
+          </p>
+          <Badge className="bg-green-500/20 text-green-400">
+            نسخة تجريبية v0.1.0
+          </Badge>
+ main
+        </div>
       </div>
-  =======
-  import React from 'react';
-  import { useRouter } from 'next/router';
-  import AuthPageComponent from '@/components/auth/AuthPage';
-
-  export default function AuthPage() {
-    const router = useRouter();
-
-    return (
-      <AuthPageComponent onLoginSuccess={() => router.push('/dashboard')} />
-  >>>>>>> main
-    );
+    </div>
+  );
 }

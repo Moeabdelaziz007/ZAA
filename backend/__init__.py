@@ -1,20 +1,11 @@
-  <<<<<<< codex/resolve-merge-conflicts-in-files
-  """Test suite initialization."""
-  import os
-  import sys
+"""Backend package initialization."""
+import os
+import sys
 
-  ROOT = os.path.dirname(os.path.dirname(__file__))
-  if ROOT not in sys.path:
-      sys.path.insert(0, ROOT)
+  <<<<<<< codex/resolve-merge-conflicts-and-update-tests
+  ROOT = os.path.abspath(os.path.dirname(__file__))
   =======
-  import os
-  import sys
-
-    <<<<<<< codex/remove-conflict-markers-and-refactor-tests
-    ROOT = os.path.dirname(os.path.dirname(__file__))
-    =======
-    ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-    >>>>>>> main
-    if ROOT not in sys.path:
-        sys.path.insert(0, ROOT)
+  ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
   >>>>>>> main
+  if ROOT not in sys.path:
+    sys.path.insert(0, ROOT)
