@@ -49,9 +49,15 @@
         "zod": "^3.22.4"
     },
     "devDependencies": {
+ dependabot/npm_and_yarn/frontend/types/react-19.1.8
+        "@types/node": "^20",
+        "@types/react": "^19",
+        "@types/react-dom": "^19",
+
         "@types/node": "^20.19.0",
         "@types/react": "^18.3.23",
         "@types/react-dom": "^18.3.7",
+ main
         "autoprefixer": "10.4.16",
         "eslint": "^8.57.1",
         "eslint-config-next": "^15.1.6",
