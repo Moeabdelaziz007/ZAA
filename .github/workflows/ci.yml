@@ -138,7 +138,7 @@ jobs:
           python scripts/generate_docs.py
           
       - name: Upload docs
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: api-docs
           path: backend/docs/
