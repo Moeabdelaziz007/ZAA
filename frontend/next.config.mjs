@@ -44,31 +44,38 @@ const nextConfig = {
     experimental: {
         optimizeCss: true,
         optimizePackageImports: ['@mui/material', '@mui/icons-material'],
-        serverActions: true,
         serverComponentsExternalPackages: ['sharp'],
     },
 
     // Webpack optimization
     webpack: (config, { dev, isServer }) => {
-        // Production optimizations
         if (!dev && !isServer) {
             config.optimization.splitChunks = {
                 chunks: 'all',
-                minSize: 20000,
-                maxSize: 244000,
+                minSize: 15000,
+                maxSize: 200000,
                 minChunks: 1,
-                maxAsyncRequests: 30,
+                maxAsyncRequests: 50,
                 maxInitialRequests: 30,
                 cacheGroups: {
-                    defaultVendors: {
+                    vendors: {
                         test: /[\\/]node_modules[\\/]/,
-                        priority: -10,
+                        name(module) {
+                            const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
+                            return `vendor.${packageName.replace('@', '')}`;
+                        },
+                        priority: 20,
+                    },
+                    common: {
+                        minChunks: 2,
+                        priority: 10,
                         reuseExistingChunk: true,
                     },
-                    default: {
-                        minChunks: 2,
-                        priority: -20,
-                        reuseExistingChunk: true,
+                    styles: {
+                        name: 'styles',
+                        test: /\.(css|scss)$/,
+                        chunks: 'all',
+                        enforce: true,
                     },
                 },
             };
@@ -80,13 +87,6 @@ const nextConfig = {
     env: {
         API_URL: process.env.API_URL,
         WS_URL: process.env.WS_URL,
-    },
-
-    // PWA support
-    pwa: {
-        dest: 'public',
-        register: true,
-        skipWaiting: true,
     },
 
     // Build optimization
@@ -102,7 +102,7 @@ const nextConfig = {
         return [
             {
                 source: '/ws',
-                destination: process.env.WS_URL,
+                destination: 'http://localhost:8000/ws',
             },
         ];
     },
@@ -112,10 +112,10 @@ const nextConfig = {
         return [
             {
                 source: '/api/ai/:path*',
-                destination: `${process.env.API_URL}/api/ai/:path*`,
+                destination: 'http://localhost:8000/api/ai/:path*',
                 permanent: true,
             },
         ];
     },
 };
-export default nextConfig;
+
