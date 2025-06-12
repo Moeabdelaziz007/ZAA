@@ -7,9 +7,9 @@ from typing import Any, Dict, Optional, Union
 from sqlalchemy.orm import Session
 
 from core.security import get_password_hash
-from models.user import User
+from ..models.user import User
 from schemas.user import UserCreate, UserUpdate
-from services.base import BaseService
+from .base import BaseService
 
 class UserService(BaseService[User, UserCreate, UserUpdate]):
     """User service class."""

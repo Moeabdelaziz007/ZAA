@@ -13,9 +13,9 @@ from core.database import get_db
 from core.redis import get_redis
 from core.security import get_current_active_user, get_current_user
 from core.rate_limit import rate_limit
-from models.user import User
+from ..models.user import User
 from schemas.preference import PreferenceCreate, PreferenceResponse, PreferenceUpdate
-from services.preference import PreferenceService
+from ..services.preference import PreferenceService
 
 router = APIRouter()
 preference_service = PreferenceService()

@@ -7,9 +7,9 @@ from typing import Any, List, Optional
 from sqlalchemy.orm import Session
 from sqlalchemy import desc
 
-from models.interaction import Interaction
+from ..models.interaction import Interaction
 from schemas.interaction import InteractionCreate
-from services.base import BaseService
+from .base import BaseService
 
 class InteractionService(BaseService[Interaction, InteractionCreate, Any]):
     """Interaction service class."""

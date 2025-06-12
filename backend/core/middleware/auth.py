@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 
 from core.config import settings
 from core.security import verify_token
-from models.user import User
+from api.models.user import User
 from utils.logger import logger
 
 security = HTTPBearer()

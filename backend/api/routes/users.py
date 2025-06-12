@@ -9,9 +9,9 @@ from sqlalchemy.orm import Session
 
 from core.database import get_db
 from core.security import get_current_active_user, get_current_superuser
-from models.user import User
+from ..models.user import User
 from schemas.user import UserCreate, UserResponse, UserUpdate
-from services.user import UserService
+from ..services.user import UserService
 
 router = APIRouter()
 user_service = UserService()

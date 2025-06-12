@@ -14,8 +14,8 @@ import time
 from concurrent.futures import ThreadPoolExecutor
 
 from core.database import get_db
-from models.user import User
-from models.item import Item
+from api.models.user import User
+from api.models.item import Item
 from core.security import create_access_token
 
 @pytest.fixture

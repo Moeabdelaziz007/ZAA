@@ -7,11 +7,11 @@ from typing import Any, List, Optional
 from sqlalchemy.orm import Session
 from sqlalchemy import desc
 
-from models.recommendation import Recommendation
-from models.item import Item
-from models.interaction import Interaction
+from ..models.recommendation import Recommendation
+from ..models.item import Item
+from ..models.interaction import Interaction
 from schemas.recommendation import RecommendationCreate
-from services.base import BaseService
+from .base import BaseService
 
 class RecommendationService(BaseService[Recommendation, RecommendationCreate, Any]):
     """Recommendation service class."""

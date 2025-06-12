@@ -13,9 +13,9 @@ from core.database import get_db
 from core.redis import get_redis
 from core.security import get_current_user
 from core.rate_limit import rate_limit
-from models.user import User
+from ..models.user import User
 from schemas.recommendation import RecommendationResponse
-from services.recommendation import RecommendationService
+from ..services.recommendation import RecommendationService
 
 router = APIRouter()
 recommendation_service = RecommendationService()

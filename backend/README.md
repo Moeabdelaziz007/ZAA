@@ -21,6 +21,18 @@ This is the backend service for the Zentix AI recommendation system. It provides
 - Pydantic
 - JWT Authentication
 
+### Project Structure
+
+```
+backend/
+├── main.py                # Application entry point
+├── api/
+│   ├── main.py            # FastAPI app and router setup
+│   ├── routes/            # API route modules
+│   ├── models/            # SQLAlchemy models
+│   └── services/          # Business logic services
+```
+
 ## Prerequisites
 
 - Python 3.8+
@@ -61,7 +73,7 @@ alembic upgrade head
 
 1. Start the development server:
 ```bash
-uvicorn main:app --reload
+uvicorn backend.main:app --reload
 ```
 
 2. Access the API documentation:

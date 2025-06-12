@@ -73,11 +73,11 @@ if [ ! -f ".env" ]; then
     cp env.example .env
 fi
 
-# Start Flask app in background
-echo "🚀 تشغيل خادم Flask..."
-nohup python app.py > backend.log 2>&1 &
+# Start FastAPI server in background
+echo "🚀 تشغيل خادم FastAPI..."
+nohup uvicorn backend.main:app --host 0.0.0.0 --port 8000 > backend.log 2>&1 &
 BACKEND_PID=$!
-echo "✅ الخلفية تعمل على المنفذ 5000 (PID: $BACKEND_PID)"
+echo "✅ الخلفية تعمل على المنفذ 8000 (PID: $BACKEND_PID)"
 
 # Wait a moment for backend to start
 sleep 3
