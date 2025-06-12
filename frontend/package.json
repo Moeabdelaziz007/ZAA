@@ -67,7 +67,11 @@
         "eslint-config-next": "^15.1.6",
         "postcss": "^8",
         "prettier": "^3.3.3",
-        "tailwindcss": "^3.4.17",
-        "typescript": "^5"
+  <<<<<<< dependabot/npm_and_yarn/frontend/tailwindcss-4.1.10
+          "tailwindcss": "^4.1.10",
+  =======
+          "tailwindcss": "^3.4.17",
+  >>>>>>> main
+          "typescript": "^5"
     }
 }
