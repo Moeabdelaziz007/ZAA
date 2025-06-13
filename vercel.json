@@ -1,0 +1,17 @@
+{
+  "rootDirectory": "frontend",
+  "buildCommand": "npm run build",
+  "outputDirectory": "frontend/.next",
+  "publicDirectory": "frontend/public",
+  "framework": "nextjs",
+  "env": {
+    "NEXT_PUBLIC_API_URL": "http://localhost:5000/api",
+    "NEXT_PUBLIC_JWT_STORAGE_KEY": "zentix_auth_token"
+  },
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "http://localhost:5000/api/:path*"
+    }
+  ]
+}
