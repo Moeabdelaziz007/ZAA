@@ -109,6 +109,36 @@ POSTGRES_PASSWORD=postgres
 POSTGRES_DB=zentix
 ```
 
+## Deploying to Vercel
+
+### Required Environment Variables
+- `VERCEL_TOKEN` - authentication token for the `vercel` CLI
+- `VERCEL_ORG_ID` - your Vercel organization ID
+- `VERCEL_PROJECT_ID` - the project ID used by Vercel
+
+### Vercel CLI Commands
+1. Install the CLI:
+   ```bash
+   npm install -g vercel
+   ```
+2. Log in to your account:
+   ```bash
+   vercel login
+   ```
+3. Deploy from the `frontend` directory:
+   ```bash
+   vercel --prod
+   ```
+
+### Backend Handling
+The backend is deployed separately (Docker, VPS, or any cloud provider).
+Set `NEXT_PUBLIC_API_URL` in the Vercel dashboard to point to the public
+backend URL.
+
+### Configuration File
+This repository provides a `vercel.json` file that defines the project
+settings and the `frontend` root.
+
 ## Maintenance
 
 ### Logs
@@ -196,3 +226,16 @@ docker-compose exec [service_name] sh
 - Security headers
 - Input validation
 - Rate limiting 
+ codex/search-for--root@--occurrences-and-clean-files
+=======
+## Kubernetes Deployment
+
+A basic Kubernetes configuration is provided in `k8s/deployment.yml`. It creates deployments and services for the backend and frontend. Apply it with:
+
+```bash
+kubectl apply -f k8s/deployment.yml
+```
+
+This configuration runs a single replica of each component in the `zentix` namespace. Update image tags and resources as needed.
+
+ main
