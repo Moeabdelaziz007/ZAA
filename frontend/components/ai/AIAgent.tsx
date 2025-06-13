@@ -61,7 +61,7 @@ export const AIAgent: React.FC<AIAgentProps> = ({
     setInput('');
 
     try {
-      const response = await fetch('/api/ai-agent', {
+      const response = await fetch('/api/chat/message', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
