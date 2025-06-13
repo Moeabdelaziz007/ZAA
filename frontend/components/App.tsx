@@ -1,3 +1,4 @@
+import React from "react";
 import { Switch, Route } from "wouter";
 import { Toaster } from "@/components/ui/toaster";
 import NotFound from "@/pages/not-found";
@@ -12,6 +13,10 @@ import Footer from "@/components/layout/footer";
 import { AuthProvider } from "@/hooks/use-auth";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "@/lib/queryClient";
+
+type AppProps = {
+  children?: React.ReactNode; // children is now optional
+};
 
 function Router() {
   return (
@@ -29,7 +34,7 @@ function Router() {
   );
 }
 
-function App() {
+const App = ({ children }: AppProps) => {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
@@ -42,10 +47,11 @@ function App() {
             {/* Add navigation items here */}
           </MobileNav>
           <Toaster />
+          {children}
         </div>
       </AuthProvider>
     </QueryClientProvider>
   );
-}
+};
 
 export default App;

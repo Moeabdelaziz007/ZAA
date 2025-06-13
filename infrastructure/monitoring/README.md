@@ -1,6 +1,7 @@
 # Monitoring Stack for Zentix AI
 
 ## 📦 المكونات:
+
 - Prometheus (metrics scraping)
 - Grafana (visual dashboards)
 - Node Exporter (system metrics)
