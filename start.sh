@@ -162,7 +162,11 @@ echo "🚀 استمتع بتجربة الذكاء الاصطناعي العاط�
 # Keep script running and monitor services
 echo ""
 echo "📊 مراقبة النظام... (اضغط Ctrl+C للخروج)"
-while true; do
+
+RUNNING=true
+trap 'RUNNING=false' INT TERM
+
+while $RUNNING; do
     sleep 30
     if ! ps -p $BACKEND_PID > /dev/null; then
         echo "⚠️  $(date): الخلفية متوقفة!"
@@ -170,4 +174,7 @@ while true; do
     if ! ps -p $FRONTEND_PID > /dev/null; then
         echo "⚠️  $(date): الواجهة متوقفة!"
     fi
-done 
+done
+
+echo "🛑 تم إيقاف مراقبة النظام"
+exit 0
