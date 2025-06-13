@@ -30,16 +30,16 @@ jobs:
         cache: 'npm'
         
     - name: Install dependencies
-      run: npm ci
+      run: cd frontend && npm ci
       
     - name: Run linting
-      run: npm run lint
+      run: cd frontend && npm run lint
       
     - name: Run type checking
-      run: npm run type-check
+      run: cd frontend && npm run type-check
       
     - name: Run tests
-      run: npm run test
+      run: cd frontend && npm run test
       
     - name: Upload coverage reports
       uses: codecov/codecov-action@v3
@@ -61,13 +61,13 @@ jobs:
         cache: 'npm'
         
     - name: Install dependencies
-      run: npm ci
+      run: cd frontend && npm ci
       
     - name: Build
-      run: npm run build
+      run: cd frontend && npm run build
       
     - name: Analyze bundle
-      run: npm run analyze
+      run: cd frontend && npm run analyze
       
   deploy:
     needs: build

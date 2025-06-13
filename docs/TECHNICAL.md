@@ -12,6 +12,8 @@ Zentix هو تطبيق ويب متقدم مبني باستخدام Next.js و Ty
 - **Framer Motion**: للرسوم المتحركة
 - **Jest & React Testing Library**: للاختبارات
 
+ملف `package.json` الخاص بالواجهة وكل أوامر `npm` موجودة داخل مجلد **frontend**.
+
 ### الخلفية
 - **FastAPI**: لبناء API
 - **PostgreSQL**: قاعدة البيانات الرئيسية
@@ -42,17 +44,17 @@ Zentix هو تطبيق ويب متقدم مبني باستخدام Next.js و Ty
 
 ### اختبارات الوحدة
 ```bash
-npm run test
+cd frontend && npm run test
 ```
 
 ### اختبارات التكامل
 ```bash
-npm run test:integration
+cd frontend && npm run test:integration
 ```
 
 ### اختبارات الأداء
 ```bash
-npm run test:performance
+cd frontend && npm run test:performance
 ```
 
 ## CI/CD

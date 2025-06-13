@@ -19,24 +19,25 @@ jobs:
           cache: 'npm'
 
       - name: Install Dependencies
-        run: npm ci
+        run: cd frontend && npm ci
 
       - name: Lint
-        run: npm run lint
+        run: cd frontend && npm run lint
 
       - name: Format Check
-        run: npm run format
+        run: cd frontend && npm run format
 
       - name: Run Tests
-        run: npm run test
+        run: cd frontend && npm run test
 
       - name: Security - npm audit
-        run: npm audit --audit-level=high
+        run: cd frontend && npm audit --audit-level=high
 
       - name: Security - Snyk
         uses: snyk/actions/node@master
         with:
           command: test
+          args: ./frontend
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
@@ -49,7 +50,7 @@ jobs:
           languages: javascript
 
       - name: Build
-        run: npm run build
+        run: cd frontend && npm run build
 
       - name: Build and Push Docker Image
         uses: docker/build-push-action@v5
