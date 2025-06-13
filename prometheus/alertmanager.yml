@@ -22,4 +22,4 @@ receivers:
       url: '{{ .CommonAnnotations.grafana_url }}'
 
 templates:
-- '/etc/alertmanager/template/*.tmpl' 
+- '/etc/alertmanager/template/*.tmpl'
