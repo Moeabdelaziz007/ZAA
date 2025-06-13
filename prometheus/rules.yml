@@ -44,4 +44,4 @@ groups:
       severity: warning
     annotations:
       summary: Disk space filling up on {{ $labels.instance }}
-      description: "Disk usage is {{ $value }}%" 
+      description: "Disk usage is {{ $value }}%"
