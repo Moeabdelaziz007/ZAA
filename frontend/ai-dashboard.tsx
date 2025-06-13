@@ -86,7 +86,7 @@ export default function AIDashboard() {
                         </div>
                     </div>
                     <div className="flex items-center space-x-4">
-                        <Badge variant="secondary" className="bg-green-500/20 text-green-400">
+                        <Badge variant="success" className="bg-green-500/20 text-green-400">
                             ● نشط
                         </Badge>
                         <span className="text-sm text-gray-400">
@@ -352,7 +352,7 @@ export default function AIDashboard() {
                                                 <span className="text-white">{skill.name}</span>
                                             </div>
                                             <div className="flex items-center space-x-2">
-                                                <Badge variant={skill.status === 'نشط' ? 'default' : 'secondary'}>
+                                                <Badge variant={skill.status === 'نشط' ? 'default' : 'info'}>
                                                     {skill.status}
                                                 </Badge>
                                                 <span className="text-sm text-gray-400">{skill.performance}%</span>

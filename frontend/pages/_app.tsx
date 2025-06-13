@@ -13,10 +13,12 @@ import type { AppProps } from 'next/app';
 import { AnimatePresence } from 'framer-motion';
 import { ThemeProvider } from '../contexts/ThemeContext';
 import '../styles/globals.css';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 export default function App({ Component, pageProps, router }: AppProps) {
   return (
     <ThemeProvider>
+      <SpeedInsights />
       <AnimatePresence mode="wait">
         <Component key={router.route} {...pageProps} />
       </AnimatePresence>

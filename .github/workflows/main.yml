@@ -1,0 +1,83 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Format Check
+        run: npm run format
+
+      - name: Run Tests
+        run: npm run test
+
+      - name: Security - npm audit
+        run: npm audit --audit-level=high
+
+      - name: Security - Snyk
+        uses: snyk/actions/node@master
+        with:
+          command: test
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+      - name: Security - GitLeaks
+        uses: gitleaks/gitleaks-action@v2
+
+      - name: CodeQL Analysis
+        uses: github/codeql-action/init@v3
+        with:
+          languages: javascript
+
+      - name: Build
+        run: npm run build
+
+      - name: Build and Push Docker Image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./frontend
+          push: true
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/zentix-frontend:latest
+
+      - name: Deploy to Vercel
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          working-directory: ./frontend
+
+      - name: Notify Sentry
+        if: success()
+        run: |
+          curl -X POST https://sentry.io/api/hooks/release/builtin/${{ secrets.SENTRY_PROJECT_ID }}/${{ secrets.SENTRY_TOKEN }}/ \
+          -H "Content-Type: application/json" \
+          -d '{"version": "${{ github.sha }}"}'
+
+      - name: Core Web Vitals
+        run: |
+          npx lighthouse-ci https://zentix.vercel.app \
+          --collect.metrics \
+          --collect.performance \
+          --collect.accessibility \
+          --collect.best-practices \
+          --collect.seo 
