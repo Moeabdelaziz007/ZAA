@@ -113,4 +113,4 @@ class ErrorResponse(BaseModel):
                 "code": "VALIDATION_ERROR",
                 "timestamp": "2024-03-20T12:00:00"
             }
-        } 
+        }

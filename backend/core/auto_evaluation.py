@@ -383,4 +383,4 @@ class AutoEvaluation:
             pass
             
         except Exception as e:
-            logger.error(f"خطأ في إرسال تنبيهات التقييم: {str(e)}") 
+            logger.error(f"خطأ في إرسال تنبيهات التقييم: {str(e)}")

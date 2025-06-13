@@ -142,7 +142,6 @@ address of the backend API.
    ```
 
 ### Backend Handling
- codex/update-deployment-docs-with-vercel-details
 Host the backend separately (Docker, VPS, or any cloud provider) and expose
 its public URL. Configure `NEXT_PUBLIC_API_URL` in the Vercel dashboard or in
 `vercel.json` so the frontend can reach the API.
@@ -162,7 +161,6 @@ application:
 
 Requests to `/api/*` are rewritten to the backend so the frontend can call the
 API without hard‑coding the server address.
- main
 
 ## Maintenance
 
@@ -250,11 +248,9 @@ docker-compose exec [service_name] sh
 - Regular updates
 - Security headers
 - Input validation
- codex/search-and-clean-affected-files
 - Rate limiting 
 - Rate limiting
 
- main
 ## Kubernetes Deployment
 
 A Kubernetes configuration is provided in `k8s/deployment.yml`. Apply it with:
@@ -263,9 +259,7 @@ A Kubernetes configuration is provided in `k8s/deployment.yml`. Apply it with:
 kubectl apply -f k8s/deployment.yml
 ```
 
- codex/search-and-clean-affected-files
 This configuration runs a single replica of each component in the `zentix` namespace. Update image tags and resources as needed.
 
 
 The file defines deployments and services for the frontend and backend in the `zentix` namespace. Update image tags and resources as needed.
- main
