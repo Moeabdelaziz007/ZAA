@@ -44,34 +44,18 @@ Zentix هو تطبيق ويب متقدم مبني باستخدام Next.js و Ty
 
 ### اختبارات الوحدة
 ```bash
- codex/decide-on-root-package.json-usage
-cd frontend
-npm run test
-=======
 cd frontend && npm run test
- main
 ```
 
 ### اختبارات التكامل
 ```bash
- codex/decide-on-root-package.json-usage
-cd frontend
-npm run test:integration
-=======
 cd frontend && npm run test:integration
- main
 ```
 
 ### اختبارات الأداء
 ```bash
- codex/decide-on-root-package.json-usage
-cd frontend
-npm run test:performance
-=======
 cd frontend && npm run test:performance
- main
 ```
-
 ## CI/CD
 
 ### مراحل CI/CD
@@ -144,4 +128,4 @@ cd frontend && npm run test:performance
 - Jest
 
 ## الترخيص
-MIT License 
+MIT License
