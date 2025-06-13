@@ -226,3 +226,13 @@ docker-compose exec [service_name] sh
 - Security headers
 - Input validation
 - Rate limiting 
+## Kubernetes Deployment
+
+A basic Kubernetes configuration is provided in `k8s/deployment.yml`. It creates deployments and services for the backend and frontend. Apply it with:
+
+```bash
+kubectl apply -f k8s/deployment.yml
+```
+
+This configuration runs a single replica of each component in the `zentix` namespace. Update image tags and resources as needed.
+
