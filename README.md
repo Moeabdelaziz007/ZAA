@@ -52,18 +52,26 @@ source venv/bin/activate  # Linux/Mac
 pip install -r requirements.txt
 ```
 
-3. إعداد قاعدة البيانات:
+3. تثبيت حزم الواجهة الأمامية:
+```bash
+cd frontend
+npm install
+cd ..
+```
+جميع أوامر `npm` يجب تنفيذها من داخل مجلد **frontend** حيث يتواجد ملف `package.json` الخاص بالواجهة.
+
+4. إعداد قاعدة البيانات:
 ```bash
 alembic upgrade head
 ```
 
-4. تشغيل الاختبارات:
+5. تشغيل الاختبارات:
 ```bash
 pytest
 ```
 إعدادات pytest معرفة في ملف `pyproject.toml`، ولا حاجة لوجود ملف `pytest.ini` منفصل.
 
-5. تشغيل التطبيق:
+6. تشغيل التطبيق:
 ```bash
 uvicorn backend.app:app --reload
 ```
