@@ -15,98 +15,75 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    
+
     strategy:
       matrix:
         node-version: [16.x, 18.x]
-        
+
     steps:
     - uses: actions/checkout@v3
-    
+
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-        
+
     - name: Install dependencies
- codex/decide-on-root-package.json-usage
       run: npm ci
       working-directory: frontend
-      
+
     - name: Run linting
       run: npm run lint
       working-directory: frontend
-      
+
     - name: Run type checking
       run: npm run type-check
       working-directory: frontend
-      
+
     - name: Run tests
       run: npm run test
       working-directory: frontend
 
-      run: cd frontend && npm ci
-      
-    - name: Run linting
-      run: cd frontend && npm run lint
-      
-    - name: Run type checking
-      run: cd frontend && npm run type-check
-      
-    - name: Run tests
-      run: cd frontend && npm run test
- main
-      
     - name: Upload coverage reports
       uses: codecov/codecov-action@v3
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
-        
+
   build:
     needs: test
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop')
-    
+
     steps:
     - uses: actions/checkout@v3
-    
+
     - name: Use Node.js
       uses: actions/setup-node@v3
       with:
         node-version: '18.x'
         cache: 'npm'
-        
+
     - name: Install dependencies
- codex/decide-on-root-package.json-usage
       run: npm ci
       working-directory: frontend
-      
+
     - name: Build
       run: npm run build
       working-directory: frontend
-      
+
     - name: Analyze bundle
       run: npm run analyze
       working-directory: frontend
 
-      run: cd frontend && npm ci
-      
-    - name: Build
-      run: cd frontend && npm run build
-      
-    - name: Analyze bundle
-      run: cd frontend && npm run analyze
- main
-      
   deploy:
     needs: build
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
-    
+
     steps:
     - uses: actions/checkout@v3
-    
+
     - name: Deploy to production
       uses: amondnet/vercel-action@v25
       with:
@@ -115,7 +92,6 @@ jobs:
         vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
         vercel-args: '--prod'
         working-directory: 'frontend'
-
   static-analysis:
     runs-on: ubuntu-latest
     steps:

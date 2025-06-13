@@ -19,7 +19,6 @@ jobs:
           cache: 'npm'
 
       - name: Install Dependencies
- codex/decide-on-root-package.json-usage
         run: npm ci
         working-directory: frontend
 
@@ -38,21 +37,6 @@ jobs:
       - name: Security - npm audit
         run: npm audit --audit-level=high
         working-directory: frontend
-=======
-        run: cd frontend && npm ci
-
-      - name: Lint
-        run: cd frontend && npm run lint
-
-      - name: Format Check
-        run: cd frontend && npm run format
-
-      - name: Run Tests
-        run: cd frontend && npm run test
-
-      - name: Security - npm audit
-        run: cd frontend && npm audit --audit-level=high
- main
 
       - name: Security - Snyk
         uses: snyk/actions/node@master
@@ -72,12 +56,8 @@ jobs:
           languages: javascript
 
       - name: Build
- codex/decide-on-root-package.json-usage
         run: npm run build
         working-directory: frontend
-
-        run: cd frontend && npm run build
- main
 
       - name: Build and Push Docker Image
         uses: docker/build-push-action@v5
@@ -108,4 +88,4 @@ jobs:
           --collect.performance \
           --collect.accessibility \
           --collect.best-practices \
-          --collect.seo 
+          --collect.seo
