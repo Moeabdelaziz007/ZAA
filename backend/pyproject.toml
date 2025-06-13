@@ -7,25 +7,13 @@ name = "amrikyyai"
 version = "0.1.0"
 description = "Zero System AI framework"
 readme = "README.md"
- codex/resolve-merge-conflicts-in-files
-requires-python = ">=3.9"
-=======
- codex/remove-conflict-markers-and-refactor-tests
 requires-python = ">=3.8"
-=======
- codex/clean-up-merge-text-and-validate-project-setup
-requires-python = ">=3.9"
 license = {file = "LICENSE"}
 authors = [{name = "Mohamed Abdelaziz"}]
 dependencies = [
     "flask",
     "flask-login",
 ]
-=======
-requires-python = ">=3.8"
- main
- main
- main
 
 [tool.setuptools]
 packages = ["sss"]
