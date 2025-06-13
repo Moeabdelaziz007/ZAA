@@ -1,5 +1,4 @@
 {
- codex/update-deployment-docs-with-vercel-details
   "orgId": "org_XXXXXXXX",
   "projectId": "prj_XXXXXXXX",
   "framework": "nextjs",
@@ -7,19 +6,14 @@
   "buildCommand": "npm run build",
   "outputDirectory": "frontend/.next",
   "publicDirectory": "frontend/public",
-=======
-  "root": "frontend",
-  "buildCommand": "npm run build",
-  "outputDirectory": "frontend/.next",
- main
   "env": {
-    "NEXT_PUBLIC_API_URL": "http://localhost:5000/api",
+    "NEXT_PUBLIC_API_URL": "@backend_url",
     "NEXT_PUBLIC_JWT_STORAGE_KEY": "zentix_auth_token"
   },
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "http://localhost:5000/api/:path*"
+      "destination": "https://api.example.com/api/:path*"
     }
   ]
 }

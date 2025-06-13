@@ -30,16 +30,33 @@ jobs:
         cache: 'npm'
         
     - name: Install dependencies
+ codex/decide-on-root-package.json-usage
       run: npm ci
+      working-directory: frontend
       
     - name: Run linting
       run: npm run lint
+      working-directory: frontend
       
     - name: Run type checking
       run: npm run type-check
+      working-directory: frontend
       
     - name: Run tests
       run: npm run test
+      working-directory: frontend
+
+      run: cd frontend && npm ci
+      
+    - name: Run linting
+      run: cd frontend && npm run lint
+      
+    - name: Run type checking
+      run: cd frontend && npm run type-check
+      
+    - name: Run tests
+      run: cd frontend && npm run test
+ main
       
     - name: Upload coverage reports
       uses: codecov/codecov-action@v3
@@ -61,13 +78,26 @@ jobs:
         cache: 'npm'
         
     - name: Install dependencies
+ codex/decide-on-root-package.json-usage
       run: npm ci
+      working-directory: frontend
       
     - name: Build
       run: npm run build
+      working-directory: frontend
       
     - name: Analyze bundle
       run: npm run analyze
+      working-directory: frontend
+
+      run: cd frontend && npm ci
+      
+    - name: Build
+      run: cd frontend && npm run build
+      
+    - name: Analyze bundle
+      run: cd frontend && npm run analyze
+ main
       
   deploy:
     needs: build

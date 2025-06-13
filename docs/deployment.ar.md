@@ -92,7 +92,7 @@ docker-compose up -d --build
 
 ### الواجهة الأمامية
 ```env
-NEXT_PUBLIC_API_URL=http://localhost/api
+NEXT_PUBLIC_API_URL=https://api.example.com/api
 NODE_ENV=production
 ```
 
@@ -115,7 +115,7 @@ POSTGRES_DB=zentix
 كجذر للتطبيق ويضبط أمر البناء ومجلد المخرجات، إضافةً إلى إعادة توجيه
 طلبات `/api` إلى عنوان الخلفية. يمكن تعريف متغيرات البيئة في هذا الملف أو
 عبر لوحة تحكم Vercel، وأهمها `NEXT_PUBLIC_API_URL` الذي يجب أن يشير إلى
-رابط الواجهة الخلفية.
+رابط الواجهة الخلفية. سيتوقف بناء الإنتاج إذا لم يكن هذا المتغير محدداً.
 
 ### متغيرات البيئة المطلوبة
 - `VERCEL_TOKEN` – رمز المصادقة لأداة `vercel`
@@ -142,23 +142,37 @@ POSTGRES_DB=zentix
 
   ### معالجة الخلفية
   يتم استضافة الخلفية بشكل منفصل (Docker أو خدمة سحابية) مع إتاحة عنوانها
+ codex/verify-environment-variables-for-production
+  العام، ثم ضبط `NEXT_PUBLIC_API_URL` في لوحة Vercel حتى تتمكن الواجهة
+  الأمامية من الوصول إلى واجهة البرمجة. سيفشل بناء الإنتاج إذا لم يكن هذا
+  المتغير محدداً.
+
   العام، ثم ضبط `NEXT_PUBLIC_API_URL` في لوحة Vercel أو في `vercel.json` حتى
   تتمكن الواجهة الأمامية من الوصول إلى واجهة البرمجة.
-
-  لا يتم نشر الخلفية على Vercel. يجب استضافتها بشكل منفصل (Docker أو خدمة
-  سحابية)، ثم تعيين `NEXT_PUBLIC_API_URL` في لوحة Vercel للإشارة إلى عنوان
-  الخلفية العام.
+ main
 
   ### ملف vercel.json
   يحدّد ملف `vercel.json` إعدادات المشروع ومجلد
-  `frontend` كجذر، كما يوضع أوامر البناء ومجلد النتائج
-  ويعرض المتغيرات اللازمة لتشغيل تطبيق
+  `frontend` كجذر، ويضبط أوامر البناء ومجلد النتائج،
+  كما يعرّف المتغيرات اللازمة لتشغيل تطبيق
   Next.js:
 
   - `NEXT_PUBLIC_API_URL` – رابط خدمة الباكند
   - `NEXT_PUBLIC_JWT_STORAGE_KEY` – مفتاح تخزين رمز المصادقة
 
+ codex/verify-environment-variables-for-production
+  يتم إعادة توجيه الطلبات `/api/*` إلى الخلفية لكي يبقى العنوان موحداً.
+
+ codex/remove-trailing-fragments-from-files
   يتم إعادة تواجه اطلابات `/api/*` إلى الخلفية لكي يبقى العنوان موحداً.
+ 1nm7v7-codex/remove-trailing-fragments-from-files
+=======
+
+  تتم إعادة كتابة الطلبات التي تبدأ بـ`/api/` إلى عنوان الخلفية. حدّث
+  الرابط الافتراضي `http://localhost:5000/api` بما يناسب بيئة الإنتاج.
+ main
+ main
+ main
 
 ## الصيانة
 

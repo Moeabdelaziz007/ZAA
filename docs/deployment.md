@@ -92,7 +92,7 @@ The application is designed to scale horizontally:
 
 ### Frontend
 ```env
-NEXT_PUBLIC_API_URL=http://localhost/api
+NEXT_PUBLIC_API_URL=https://api.example.com/api
 NODE_ENV=production
 ```
 
@@ -115,8 +115,8 @@ The `vercel.json` file in the repository configures the Next.js frontend.
 It sets `frontend` as the root directory, specifies the build command and
 output folder, and rewrites `/api` requests to the backend URL. Environment
 variables can be defined in this file or through the Vercel dashboard. The
-most important one is `NEXT_PUBLIC_API_URL` which should point to the public
-address of the backend API.
+most important one is `NEXT_PUBLIC_API_URL`, which must point to the public
+address of the backend API. Production builds verify this variable is set.
 
 ### Required Environment Variables
 - `VERCEL_TOKEN` - authentication token for the `vercel` CLI
@@ -143,12 +143,14 @@ address of the backend API.
 
 ### Backend Handling
 Host the backend separately (Docker, VPS, or any cloud provider) and expose
+ codex/verify-environment-variables-for-production
+its public URL. Set `NEXT_PUBLIC_API_URL` in the Vercel dashboard so the
+frontend can reach the API. The production build will fail if this variable is
+missing.
+=======
 its public URL. Configure `NEXT_PUBLIC_API_URL` in the Vercel dashboard or in
 `vercel.json` so the frontend can reach the API.
-
-The backend is deployed separately (Docker, VPS, or any cloud provider).
-Set `NEXT_PUBLIC_API_URL` in the Vercel dashboard to point to the public
-backend URL.
+ main
 
 ### Configuration File
 This repository provides a `vercel.json` file that defines the project
@@ -160,7 +162,18 @@ application:
 - `NEXT_PUBLIC_JWT_STORAGE_KEY` – key used to store the authentication token
 
 Requests to `/api/*` are rewritten to the backend so the frontend can call the
+ codex/remove-trailing-fragments-from-files
 API without hard‑coding the server address.
+ 1nm7v7-codex/remove-trailing-fragments-from-files
+=======
+ codex/verify-environment-variables-for-production
+=======
+=======
+API without hard‑coding the server address. Update the destination URL from
+`http://localhost:5000/api` to your deployed backend address.
+ main
+ main
+ main
 
 ## Maintenance
 
@@ -248,9 +261,23 @@ docker-compose exec [service_name] sh
 - Regular updates
 - Security headers
 - Input validation
+ 1nm7v7-codex/remove-trailing-fragments-from-files
 - Rate limiting 
 - Rate limiting
 
+=======
+ codex/verify-environment-variables-for-production
+- Rate limiting
+=======
+ codex/remove-trailing-fragments-from-files
+- Rate limiting 
+- Rate limiting
+
+=======
+- Rate limiting
+ main
+ main
+ main
 ## Kubernetes Deployment
 
 A Kubernetes configuration is provided in `k8s/deployment.yml`. Apply it with:
@@ -260,6 +287,14 @@ kubectl apply -f k8s/deployment.yml
 ```
 
 This configuration runs a single replica of each component in the `zentix` namespace. Update image tags and resources as needed.
-
+ codex/remove-trailing-fragments-from-files
 
 The file defines deployments and services for the frontend and backend in the `zentix` namespace. Update image tags and resources as needed.
+ 1nm7v7-codex/remove-trailing-fragments-from-files
+=======
+ codex/verify-environment-variables-for-production
+=======
+=======
+ main
+ main
+ main
