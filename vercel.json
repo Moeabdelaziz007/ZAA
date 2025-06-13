@@ -1,0 +1,8 @@
+{
+  "orgId": "org_XXXXXXXX",
+  "projectId": "prj_XXXXXXXX",
+  "framework": "nextjs",
+  "rootDirectory": "frontend",
+  "buildCommand": "npm run build",
+  "outputDirectory": "frontend/.next"
+}
