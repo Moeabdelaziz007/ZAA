@@ -1,7 +1,7 @@
 /**
  * Next.js Configuration
  * المؤلف: محمد عبدالعزيز (Amrikyy)
- * 
+ *
  * Description (EN): Next.js configuration with performance optimizations
  * الوصف (ع): تكوين Next.js مع تحسينات الأداء
  */
@@ -16,5 +16,9 @@ const nextConfig = {
   compress: true,
   swcMinify: true,
 };
+
+if (process.env.NODE_ENV === 'production' && !process.env.NEXT_PUBLIC_API_URL) {
+  throw new Error('NEXT_PUBLIC_API_URL is required for production builds');
+}
 
 module.exports = nextConfig;
