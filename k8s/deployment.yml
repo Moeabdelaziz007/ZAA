@@ -1,3 +1,6 @@
+ codex/search-for--root@--occurrences-and-clean-files
+
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -65,3 +68,4 @@ spec:
     - protocol: TCP
       port: 3000
       targetPort: 3000
+ main

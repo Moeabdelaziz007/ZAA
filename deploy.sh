@@ -125,4 +125,4 @@ fi
 echo -e "${YELLOW}⚡ Running performance audit...${NC}"
 npm run lighthouse || echo -e "${YELLOW}⚠️ Performance audit failed (non-blocking)${NC}"
 
-echo -e "${GREEN}🎉 Deployment completed successfully!${NC}" 
+
