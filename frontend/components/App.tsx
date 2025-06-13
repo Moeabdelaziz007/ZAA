@@ -18,7 +18,9 @@ function Router() {
     <Switch>
       <Route path="/" component={HomePage} />
       <Route path="/property/:id" component={PropertyDetailPage} />
-      <Route path="/auth" component={AuthPage} />
+      <Route path="/auth">
+        <AuthPage />
+      </Route>
       <Route path="/messages" component={MessagesPage} />
       <Route path="/points" component={PointsPage} />
       <Route path="/services" component={ServicesPage} />
@@ -36,7 +38,9 @@ function App() {
             <Router />
           </main>
           <Footer />
-          <MobileNav />
+          <MobileNav>
+            {/* Add navigation items here */}
+          </MobileNav>
           <Toaster />
         </div>
       </AuthProvider>
