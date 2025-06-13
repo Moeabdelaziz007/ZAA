@@ -164,11 +164,14 @@ application:
 Requests to `/api/*` are rewritten to the backend so the frontend can call the
  codex/remove-trailing-fragments-from-files
 API without hard‑coding the server address.
+ 1nm7v7-codex/remove-trailing-fragments-from-files
+=======
  codex/verify-environment-variables-for-production
 =======
 =======
 API without hard‑coding the server address. Update the destination URL from
 `http://localhost:5000/api` to your deployed backend address.
+ main
  main
  main
 
@@ -258,6 +261,11 @@ docker-compose exec [service_name] sh
 - Regular updates
 - Security headers
 - Input validation
+ 1nm7v7-codex/remove-trailing-fragments-from-files
+- Rate limiting 
+- Rate limiting
+
+=======
  codex/verify-environment-variables-for-production
 - Rate limiting
 =======
@@ -267,6 +275,7 @@ docker-compose exec [service_name] sh
 
 =======
 - Rate limiting
+ main
  main
  main
 ## Kubernetes Deployment
@@ -281,8 +290,11 @@ This configuration runs a single replica of each component in the `zentix` names
  codex/remove-trailing-fragments-from-files
 
 The file defines deployments and services for the frontend and backend in the `zentix` namespace. Update image tags and resources as needed.
+ 1nm7v7-codex/remove-trailing-fragments-from-files
+=======
  codex/verify-environment-variables-for-production
 =======
 =======
+ main
  main
  main

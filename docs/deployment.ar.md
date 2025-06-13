@@ -165,9 +165,12 @@ POSTGRES_DB=zentix
 
  codex/remove-trailing-fragments-from-files
   يتم إعادة تواجه اطلابات `/api/*` إلى الخلفية لكي يبقى العنوان موحداً.
+ 1nm7v7-codex/remove-trailing-fragments-from-files
+=======
 
   تتم إعادة كتابة الطلبات التي تبدأ بـ`/api/` إلى عنوان الخلفية. حدّث
   الرابط الافتراضي `http://localhost:5000/api` بما يناسب بيئة الإنتاج.
+ main
  main
  main
 
