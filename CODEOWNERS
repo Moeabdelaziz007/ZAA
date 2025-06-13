@@ -25,7 +25,7 @@
 # التكوين
 /.github/ @devops-team
 /docker/ @devops-team
-/nginx/ @devops-team
+/infrastructure/nginx/ @devops-team
 
 # الاختبارات
 /tests/ @qa-team

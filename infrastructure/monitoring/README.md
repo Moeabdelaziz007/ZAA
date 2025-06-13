@@ -10,7 +10,7 @@
 - قواعد تنبيه جاهزة في `rules.yml`
 
 ## 🚀 خطوات التشغيل:
-1. تأكد من إضافة Slack webhook في `prometheus/alertmanager.yml`
+1. تأكد من إضافة Slack webhook في `infrastructure/prometheus/alertmanager.yml`
 2. شغّل النظام:
    ```bash
    docker-compose up -d
@@ -50,9 +50,9 @@
 - تحديث القواعد والتنبيهات
 
 ## 🔧 التكوين:
-- `prometheus/prometheus.yml`: تكوين Prometheus
-- `prometheus/alertmanager.yml`: تكوين التنبيهات
-- `prometheus/rules.yml`: قواعد التنبيهات
+- `infrastructure/prometheus/prometheus.yml`: تكوين Prometheus
+- `infrastructure/prometheus/alertmanager.yml`: تكوين التنبيهات
+- `infrastructure/prometheus/rules.yml`: قواعد التنبيهات
 - `docker-compose.yml`: تكوين الخدمات
 
 ## 📝 ملاحظات:
