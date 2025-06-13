@@ -1,20 +1,22 @@
- codex/search-for--root@--occurrences-and-clean-files
-
-
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: zentix
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: zentix-backend
+  name: backend
   namespace: zentix
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: zentix-backend
+      app: backend
   template:
     metadata:
       labels:
-        app: zentix-backend
+        app: backend
     spec:
       containers:
         - name: backend
@@ -25,30 +27,29 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: zentix-backend
+  name: backend
   namespace: zentix
 spec:
   selector:
-    app: zentix-backend
+    app: backend
   ports:
-    - protocol: TCP
-      port: 8000
+    - port: 8000
       targetPort: 8000
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: zentix-frontend
+  name: frontend
   namespace: zentix
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: zentix-frontend
+      app: frontend
   template:
     metadata:
       labels:
-        app: zentix-frontend
+        app: frontend
     spec:
       containers:
         - name: frontend
@@ -59,13 +60,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: zentix-frontend
+  name: frontend
   namespace: zentix
 spec:
   selector:
-    app: zentix-frontend
+    app: frontend
   ports:
-    - protocol: TCP
-      port: 3000
+    - port: 3000
       targetPort: 3000
- main
