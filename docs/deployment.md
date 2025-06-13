@@ -233,8 +233,12 @@ docker-compose exec [service_name] sh
 - Regular updates
 - Security headers
 - Input validation
+ codex/search-and-clean-affected-files
+- Rate limiting 
+=======
 - Rate limiting
 
+ main
 ## Kubernetes Deployment
 
 A Kubernetes configuration is provided in `k8s/deployment.yml`. Apply it with:
@@ -243,4 +247,9 @@ A Kubernetes configuration is provided in `k8s/deployment.yml`. Apply it with:
 kubectl apply -f k8s/deployment.yml
 ```
 
+ codex/search-and-clean-affected-files
+This configuration runs a single replica of each component in the `zentix` namespace. Update image tags and resources as needed.
+
+=======
 The file defines deployments and services for the frontend and backend in the `zentix` namespace. Update image tags and resources as needed.
+ main

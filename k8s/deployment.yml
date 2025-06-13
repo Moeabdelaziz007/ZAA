@@ -1,8 +1,11 @@
+ codex/search-and-clean-affected-files
+=======
 apiVersion: v1
 kind: Namespace
 metadata:
   name: zentix
 ---
+ main
 apiVersion: apps/v1
 kind: Deployment
 metadata:
