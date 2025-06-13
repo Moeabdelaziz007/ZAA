@@ -154,8 +154,12 @@ POSTGRES_DB=zentix
   - `NEXT_PUBLIC_API_URL` – رابط خدمة الباكند
   - `NEXT_PUBLIC_JWT_STORAGE_KEY` – مفتاح تخزين رمز المصادقة
 
+ codex/remove-trailing-fragments-from-files
+  يتم إعادة تواجه اطلابات `/api/*` إلى الخلفية لكي يبقى العنوان موحداً.
+=======
   تتم إعادة كتابة الطلبات التي تبدأ بـ`/api/` إلى عنوان الخلفية. حدّث
   الرابط الافتراضي `http://localhost:5000/api` بما يناسب بيئة الإنتاج.
+ main
 
 ## الصيانة
 

@@ -127,4 +127,4 @@ class LLMService:
                 'summary': "عذراً، حدث خطأ في تحليل الملاحظات.",
                 'sentiment': "neutral",
                 'key_points': []
-            } 
+            }

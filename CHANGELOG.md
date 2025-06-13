@@ -144,4 +144,4 @@
 ---
 
 **آخر تحديث**: 2024-06-12  
-**المطور**: Mohamed H. Abdelaziz (@cryptojoker710) 
+**المطور**: Mohamed H. Abdelaziz (@cryptojoker710)
