@@ -69,4 +69,4 @@
 .eslintrc @devops-team
 tsconfig.json @devops-team
 package.json @devops-team
-requirements.txt @devops-team 
+requirements.txt @devops-team
