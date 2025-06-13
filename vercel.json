@@ -1,17 +1,11 @@
 {
- codex/extend-deployment-docs-with-vercel-section
   "orgId": "org_XXXXXXXX",
   "projectId": "prj_XXXXXXXX",
   "framework": "nextjs",
   "rootDirectory": "frontend",
   "buildCommand": "npm run build",
-  "outputDirectory": "frontend/.next"
-=======
-  "rootDirectory": "frontend",
-  "buildCommand": "npm run build",
   "outputDirectory": "frontend/.next",
   "publicDirectory": "frontend/public",
-  "framework": "nextjs",
   "env": {
     "NEXT_PUBLIC_API_URL": "http://localhost:5000/api",
     "NEXT_PUBLIC_JWT_STORAGE_KEY": "zentix_auth_token"
@@ -22,5 +16,4 @@
       "destination": "http://localhost:5000/api/:path*"
     }
   ]
- main
 }
