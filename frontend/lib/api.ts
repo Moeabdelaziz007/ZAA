@@ -1,6 +1,17 @@
 import { useState, useEffect } from 'react';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+const getApiBaseUrl = () => {
+  const url = process.env.NEXT_PUBLIC_API_URL;
+  if (!url) {
+    if (process.env.NODE_ENV === 'production') {
+      throw new Error('NEXT_PUBLIC_API_URL is not defined');
+    }
+    return 'http://localhost:5000/api';
+  }
+  return url;
+};
+
+const API_BASE_URL = getApiBaseUrl();
 const TOKEN_KEY = process.env.NEXT_PUBLIC_JWT_STORAGE_KEY || 'zentix_auth_token';
 
 // Types
