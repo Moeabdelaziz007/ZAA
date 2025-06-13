@@ -20,18 +20,23 @@ jobs:
 
       - name: Install Dependencies
         run: npm ci
+        working-directory: frontend
 
       - name: Lint
         run: npm run lint
+        working-directory: frontend
 
       - name: Format Check
         run: npm run format
+        working-directory: frontend
 
       - name: Run Tests
         run: npm run test
+        working-directory: frontend
 
       - name: Security - npm audit
         run: npm audit --audit-level=high
+        working-directory: frontend
 
       - name: Security - Snyk
         uses: snyk/actions/node@master
@@ -39,6 +44,7 @@ jobs:
           command: test
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        working-directory: frontend
 
       - name: Security - GitLeaks
         uses: gitleaks/gitleaks-action@v2
@@ -50,6 +56,7 @@ jobs:
 
       - name: Build
         run: npm run build
+        working-directory: frontend
 
       - name: Build and Push Docker Image
         uses: docker/build-push-action@v5

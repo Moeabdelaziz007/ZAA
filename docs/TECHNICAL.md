@@ -42,16 +42,19 @@ Zentix هو تطبيق ويب متقدم مبني باستخدام Next.js و Ty
 
 ### اختبارات الوحدة
 ```bash
+cd frontend
 npm run test
 ```
 
 ### اختبارات التكامل
 ```bash
+cd frontend
 npm run test:integration
 ```
 
 ### اختبارات الأداء
 ```bash
+cd frontend
 npm run test:performance
 ```
 

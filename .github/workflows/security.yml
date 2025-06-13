@@ -22,6 +22,7 @@ jobs:
 
       - name: Run npm audit
         run: npm audit --production
+        working-directory: frontend
 
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/node@master
@@ -29,6 +30,7 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           args: --severity-threshold=high
+        working-directory: frontend
 
       - name: Run OWASP Dependency Check
         uses: dependency-check/Dependency-Check_Action@main
