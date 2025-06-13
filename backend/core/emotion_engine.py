@@ -1019,4 +1019,4 @@ class EmotionSuggestionEngine:
             
         except Exception as e:
             logger.error(f"خطأ في تحليل تأثير التفاعل: {str(e)}")
-            return {} 
+            return {}

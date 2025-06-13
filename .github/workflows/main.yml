@@ -19,6 +19,26 @@ jobs:
           cache: 'npm'
 
       - name: Install Dependencies
+ codex/decide-on-root-package.json-usage
+        run: npm ci
+        working-directory: frontend
+
+      - name: Lint
+        run: npm run lint
+        working-directory: frontend
+
+      - name: Format Check
+        run: npm run format
+        working-directory: frontend
+
+      - name: Run Tests
+        run: npm run test
+        working-directory: frontend
+
+      - name: Security - npm audit
+        run: npm audit --audit-level=high
+        working-directory: frontend
+=======
         run: cd frontend && npm ci
 
       - name: Lint
@@ -32,6 +52,7 @@ jobs:
 
       - name: Security - npm audit
         run: cd frontend && npm audit --audit-level=high
+ main
 
       - name: Security - Snyk
         uses: snyk/actions/node@master
@@ -40,6 +61,7 @@ jobs:
           args: ./frontend
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        working-directory: frontend
 
       - name: Security - GitLeaks
         uses: gitleaks/gitleaks-action@v2
@@ -50,7 +72,12 @@ jobs:
           languages: javascript
 
       - name: Build
+ codex/decide-on-root-package.json-usage
+        run: npm run build
+        working-directory: frontend
+
         run: cd frontend && npm run build
+ main
 
       - name: Build and Push Docker Image
         uses: docker/build-push-action@v5
