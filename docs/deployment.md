@@ -146,10 +146,6 @@ Host the backend separately (Docker, VPS, or any cloud provider) and expose
 its public URL. Configure `NEXT_PUBLIC_API_URL` in the Vercel dashboard or in
 `vercel.json` so the frontend can reach the API.
 
-The backend is deployed separately (Docker, VPS, or any cloud provider).
-Set `NEXT_PUBLIC_API_URL` in the Vercel dashboard to point to the public
-backend URL.
-
 ### Configuration File
 This repository provides a `vercel.json` file that defines the project
 settings and the `frontend` root. It also configures the build and output
@@ -160,7 +156,12 @@ application:
 - `NEXT_PUBLIC_JWT_STORAGE_KEY` – key used to store the authentication token
 
 Requests to `/api/*` are rewritten to the backend so the frontend can call the
+ codex/remove-trailing-fragments-from-files
 API without hard‑coding the server address.
+=======
+API without hard‑coding the server address. Update the destination URL from
+`http://localhost:5000/api` to your deployed backend address.
+ main
 
 ## Maintenance
 
@@ -248,9 +249,13 @@ docker-compose exec [service_name] sh
 - Regular updates
 - Security headers
 - Input validation
+ codex/remove-trailing-fragments-from-files
 - Rate limiting 
 - Rate limiting
 
+=======
+- Rate limiting
+ main
 ## Kubernetes Deployment
 
 A Kubernetes configuration is provided in `k8s/deployment.yml`. Apply it with:
@@ -260,6 +265,9 @@ kubectl apply -f k8s/deployment.yml
 ```
 
 This configuration runs a single replica of each component in the `zentix` namespace. Update image tags and resources as needed.
+ codex/remove-trailing-fragments-from-files
 
 
 The file defines deployments and services for the frontend and backend in the `zentix` namespace. Update image tags and resources as needed.
+=======
+ main
