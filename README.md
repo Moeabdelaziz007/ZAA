@@ -54,7 +54,7 @@ pip install -r requirements.txt
 
 3. إعداد قاعدة البيانات:
 ```bash
-python manage.py db upgrade
+alembic upgrade head
 ```
 
 4. تشغيل الاختبارات:
@@ -64,7 +64,7 @@ pytest
 
 5. تشغيل التطبيق:
 ```bash
-python manage.py run
+uvicorn backend.app:app --reload
 ```
 
 ## هيكل المشروع
