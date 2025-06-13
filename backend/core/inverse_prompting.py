@@ -410,4 +410,4 @@ class InversePrompting:
             
         except Exception as e:
             logger.error(f"خطأ في تحليل درجات النوايا: {str(e)}")
-            return {} 
+            return {}

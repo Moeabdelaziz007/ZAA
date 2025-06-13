@@ -130,4 +130,4 @@ class SmartCache:
         return decorator
 
 # إنشاء مثيل المدير
-cache = SmartCache(settings.redis_client) 
+cache = SmartCache(settings.redis_client)

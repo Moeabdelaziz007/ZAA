@@ -141,7 +141,6 @@ POSTGRES_DB=zentix
    ```
 
   ### معالجة الخلفية
-   codex/update-deployment-docs-with-vercel-details
   يتم استضافة الخلفية بشكل منفصل (Docker أو خدمة سحابية) مع إتاحة عنوانها
   العام، ثم ضبط `NEXT_PUBLIC_API_URL` في لوحة Vercel أو في `vercel.json` حتى
   تتمكن الواجهة الأمامية من الوصول إلى واجهة البرمجة.
@@ -160,7 +159,6 @@ POSTGRES_DB=zentix
   - `NEXT_PUBLIC_JWT_STORAGE_KEY` – مفتاح تخزين رمز المصادقة
 
   يتم إعادة تواجه اطلابات `/api/*` إلى الخلفية لكي يبقى العنوان موحداً.
-  >>>>>>> main
 
 ## الصيانة
 

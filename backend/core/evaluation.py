@@ -111,4 +111,4 @@ class SelfEvaluationSystem:
             
         except Exception as e:
             logger.error(f"خطأ في جمع ملاحظات المستخدم: {str(e)}")
-            raise 
+            raise
