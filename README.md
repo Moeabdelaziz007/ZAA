@@ -61,6 +61,7 @@ alembic upgrade head
 ```bash
 pytest
 ```
+إعدادات pytest معرفة في ملف `pyproject.toml`، ولا حاجة لوجود ملف `pytest.ini` منفصل.
 
 5. تشغيل التطبيق:
 ```bash
