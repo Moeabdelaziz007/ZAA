@@ -109,6 +109,36 @@ POSTGRES_PASSWORD=postgres
 POSTGRES_DB=zentix
 ```
 
+## النشر على Vercel
+
+### متغيرات البيئة المطلوبة
+- `VERCEL_TOKEN` – رمز المصادقة لأداة `vercel`
+- `VERCEL_ORG_ID` – معرف المؤسسة في Vercel
+- `VERCEL_PROJECT_ID` – معرف المشروع على Vercel
+
+### أوامر vercel CLI
+1. تثبيت الأداة:
+   ```bash
+   npm install -g vercel
+   ```
+2. تسجيل الدخول:
+   ```bash
+   vercel login
+   ```
+3. النشر من مجلد `frontend`:
+   ```bash
+   vercel --prod
+   ```
+
+### معالجة الخلفية
+لا يتم نشر الخلفية على Vercel. يجب استضافتها بشكل منفصل (Docker أو خدمة
+سحابية)، ثم تعيين `NEXT_PUBLIC_API_URL` في لوحة Vercel للإشارة إلى عنوان
+الخلفية العام.
+
+### ملف vercel.json
+يحتوي المستودع على ملف `vercel.json` يعرّف إعدادات المشروع ومجلد
+`frontend` كجذر.
+
 ## الصيانة
 
 ### السجلات
