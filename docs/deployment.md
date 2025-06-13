@@ -111,6 +111,13 @@ POSTGRES_DB=zentix
 
 ## Deploying to Vercel
 
+The `vercel.json` file in the repository configures the Next.js frontend.
+It sets `frontend` as the root directory, specifies the build command and
+output folder, and rewrites `/api` requests to the backend URL. Environment
+variables can be defined in this file or through the Vercel dashboard. The
+most important one is `NEXT_PUBLIC_API_URL` which should point to the public
+address of the backend API.
+
 ### Required Environment Variables
 - `VERCEL_TOKEN` - authentication token for the `vercel` CLI
 - `VERCEL_ORG_ID` - your Vercel organization ID
@@ -125,12 +132,21 @@ POSTGRES_DB=zentix
    ```bash
    vercel login
    ```
-3. Deploy from the `frontend` directory:
+3. Create a preview deployment:
+   ```bash
+   vercel
+   ```
+4. Deploy to production from the `frontend` directory:
    ```bash
    vercel --prod
    ```
 
 ### Backend Handling
+ codex/update-deployment-docs-with-vercel-details
+Host the backend separately (Docker, VPS, or any cloud provider) and expose
+its public URL. Configure `NEXT_PUBLIC_API_URL` in the Vercel dashboard or in
+`vercel.json` so the frontend can reach the API.
+
 The backend is deployed separately (Docker, VPS, or any cloud provider).
 Set `NEXT_PUBLIC_API_URL` in the Vercel dashboard to point to the public
 backend URL.
@@ -146,6 +162,7 @@ application:
 
 Requests to `/api/*` are rewritten to the backend so the frontend can call the
 API without hard‑coding the server address.
+ main
 
 ## Maintenance
 
@@ -235,7 +252,6 @@ docker-compose exec [service_name] sh
 - Input validation
  codex/search-and-clean-affected-files
 - Rate limiting 
-=======
 - Rate limiting
 
  main
@@ -250,6 +266,6 @@ kubectl apply -f k8s/deployment.yml
  codex/search-and-clean-affected-files
 This configuration runs a single replica of each component in the `zentix` namespace. Update image tags and resources as needed.
 
-=======
+
 The file defines deployments and services for the frontend and backend in the `zentix` namespace. Update image tags and resources as needed.
  main
