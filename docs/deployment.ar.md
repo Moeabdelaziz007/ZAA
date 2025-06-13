@@ -141,15 +141,7 @@ POSTGRES_DB=zentix
    ```
 
   ### معالجة الخلفية
-  يتم استضافة الخلفية بشكل منفصل (Docker أو خدمة سحابية) مع إتاحة عنوانها
- codex/verify-environment-variables-for-production
-  العام، ثم ضبط `NEXT_PUBLIC_API_URL` في لوحة Vercel حتى تتمكن الواجهة
-  الأمامية من الوصول إلى واجهة البرمجة. سيفشل بناء الإنتاج إذا لم يكن هذا
-  المتغير محدداً.
-
-  العام، ثم ضبط `NEXT_PUBLIC_API_URL` في لوحة Vercel أو في `vercel.json` حتى
-  تتمكن الواجهة الأمامية من الوصول إلى واجهة البرمجة.
- main
+يتم استضافة الخلفية بشكل منفصل (Docker أو خدمة سحابية) مع إتاحة عنوانها العام، ثم ضبط `NEXT_PUBLIC_API_URL` في لوحة Vercel أو في `vercel.json` حتى تتمكن الواجهة الأمامية من الوصول إلى واجهة البرمجة. سيفشل بناء الإنتاج إذا لم يكن هذا المتغير محدداً.
 
   ### ملف vercel.json
   يحدّد ملف `vercel.json` إعدادات المشروع ومجلد
@@ -160,19 +152,7 @@ POSTGRES_DB=zentix
   - `NEXT_PUBLIC_API_URL` – رابط خدمة الباكند
   - `NEXT_PUBLIC_JWT_STORAGE_KEY` – مفتاح تخزين رمز المصادقة
 
- codex/verify-environment-variables-for-production
-  يتم إعادة توجيه الطلبات `/api/*` إلى الخلفية لكي يبقى العنوان موحداً.
-
- codex/remove-trailing-fragments-from-files
-  يتم إعادة تواجه اطلابات `/api/*` إلى الخلفية لكي يبقى العنوان موحداً.
- 1nm7v7-codex/remove-trailing-fragments-from-files
-=======
-
-  تتم إعادة كتابة الطلبات التي تبدأ بـ`/api/` إلى عنوان الخلفية. حدّث
-  الرابط الافتراضي `http://localhost:5000/api` بما يناسب بيئة الإنتاج.
- main
- main
- main
+تتم إعادة كتابة الطلبات التي تبدأ بـ`/api/` إلى عنوان الخلفية كي يبقى العنوان موحداً. حدّث الرابط الافتراضي `http://localhost:5000/api` بما يناسب بيئة الإنتاج.
 
 ## الصيانة
 
