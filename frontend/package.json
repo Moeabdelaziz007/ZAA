@@ -23,7 +23,7 @@
     "@amplitude/analytics-browser": "^2.0.0",
     "@headlessui/react": "^1.7.17",
     "@heroicons/react": "^2.0.18",
-    "@hookform/resolvers": "^3.3.4",
+    "@hookform/resolvers": "^5.1.1",
     "@next/bundle-analyzer": "^13.0.0",
     "@radix-ui/react-accordion": "^1.1.2",
     "@radix-ui/react-alert-dialog": "^1.0.5",
